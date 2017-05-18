@@ -139,7 +139,7 @@ public class normdrive extends Opmode {
 
         finally {
 
-            leftMotor1.setPower(0);
+            leftMotor1.setPower(0); //set power back to 0 when stopped
 
             rightMotor1.setPower(0);
 
