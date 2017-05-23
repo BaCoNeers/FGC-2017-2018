@@ -108,13 +108,14 @@ public class normdrive extends Opmode {
                 left = power1 + rotation1;
                 right = power1 - rotation1;
 
-
+                //sets power to the variables
                 leftMotor1.setPower(left);
                 rightMotor1.setPower(right);
                 leftMotor2.setPower(left);
                 rightMotor2.setPower(right);
 
-                telemetry.addData("left: ",left  );
+                //sends the variables of power to
+                telemetry.addData("left: ",left);
                 telemetry.addData("right: ", right);
                 telemetry.update();
 
