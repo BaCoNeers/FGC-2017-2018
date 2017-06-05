@@ -21,6 +21,8 @@ public abstract class Opmode extends LinearOpMode {
 
     protected DcMotor Harvister;
 
+    protected DcMotor Harvister2;
+
     protected ColorSensor ColorSensor;
 
     protected Servo Servo;

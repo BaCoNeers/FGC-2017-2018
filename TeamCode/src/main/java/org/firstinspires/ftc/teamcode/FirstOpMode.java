@@ -57,8 +57,8 @@ public class FirstOpMode extends Opmode {
 
     public void runOpMode() {
 
-        double left = 0.0;
-        double right = 0.0;
+        double left;
+        double right;
 
         double red,green,blue;
         boolean boharvister, boreharvister;
@@ -71,6 +71,7 @@ public class FirstOpMode extends Opmode {
         rightMotor2 = hardwareMap.dcMotor.get("right2_drive");
 
         Harvister = hardwareMap.dcMotor.get("Harvister");
+        Harvister2 = hardwareMap.dcMotor.get("harvister2");
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
 
@@ -115,8 +116,10 @@ public class FirstOpMode extends Opmode {
 
             while (opModeIsActive()) {
 
-                left = gamepad1.left_stick_y;
-                right = gamepad1.right_stick_y;
+                double rotation1 = -gamepad1.left_stick_x;
+                double power1 = gamepad1.right_trigger - gamepad1.left_trigger;
+                left = power1 + rotation1;
+                right = power1 - rotation1;
 
                 if (gamepad1.a)
                 {
@@ -142,14 +145,17 @@ public class FirstOpMode extends Opmode {
                 if (boharvister == true)
                 {
                     Harvister.setPower(1);
+                    Harvister2.setPower(-1);
                 }
                 if (boharvister == false && boreharvister == false)
                 {
                     Harvister.setPower(0);
+                    Harvister2.setPower(0);
                 }
                 if (boreharvister == true)
                 {
                     Harvister.setPower(-1);
+                    Harvister2.setPower(1);
                 }
 
 
