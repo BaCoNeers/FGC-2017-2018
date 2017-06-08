@@ -59,6 +59,7 @@ public class FirstOpMode extends Opmode {
 
         double left;
         double right;
+        double winchpower;
 
         double red,green,blue;
         boolean boharvister, boreharvister;
@@ -72,11 +73,14 @@ public class FirstOpMode extends Opmode {
 
         Harvister = hardwareMap.dcMotor.get("Harvister");
         Harvister2 = hardwareMap.dcMotor.get("harvister2");
+        whinch = hardwareMap.dcMotor.get("Winch");
+        whinch2 = hardwareMap.dcMotor.get("winch2");
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
+        whinch2.setDirection(DcMotorSimple.Direction.REVERSE);
 
 // Set all motors to zero power
 
@@ -116,7 +120,7 @@ public class FirstOpMode extends Opmode {
 
             while (opModeIsActive()) {
 
-                double rotation1 = -gamepad1.left_stick_x;
+                double rotation1 = -gamepad1.left_stick_x /2;
                 double power1 = gamepad1.right_trigger - gamepad1.left_trigger;
                 left = power1 + rotation1;
                 right = power1 - rotation1;
@@ -158,12 +162,23 @@ public class FirstOpMode extends Opmode {
                     Harvister2.setPower(1);
                 }
 
+                if (gamepad1.x)
+                {
+                    left = left/2;
+                    right = right/2;
+
+                }
 
 
                 leftMotor1.setPower(left);
                 rightMotor1.setPower(right);
                 leftMotor2.setPower(left);
                 rightMotor2.setPower(right);
+
+
+                winchpower = gamepad2.right_trigger;
+                whinch.setPower(winchpower);
+                whinch2.setPower(winchpower);
 
 
                 red = ColorSensor.red();
@@ -187,6 +202,7 @@ public class FirstOpMode extends Opmode {
                 telemetry.addData("Harister: ", boharvister);
                 telemetry.addData("reHarvister",boreharvister);
                 telemetry.addData("Harvister", Harvister.getPower());
+                telemetry.addData("winch", winchpower);
                 telemetry.update();
 
 
@@ -219,6 +235,9 @@ public class FirstOpMode extends Opmode {
             rightMotor2.setPower(0);
 
             Harvister.setPower(0);
+            Harvister2.setPower(0);
+            whinch.setPower(0);
+            whinch2.setPower(0);
 
         }
 
