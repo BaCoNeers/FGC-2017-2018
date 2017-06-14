@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
  */
 
-@TeleOp(name="Tank Controls", group="Practice-Bot")
+@TeleOp(name="HI", group="Practice-Bot")
 
 public class FirstOpMode extends Opmode {
 
@@ -77,6 +77,8 @@ public class FirstOpMode extends Opmode {
         whinch2 = hardwareMap.dcMotor.get("winch2");
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
+        LeftServo = hardwareMap.servo.get("LeftServo");
+        RightServo = hardwareMap.servo.get("RightServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -95,6 +97,10 @@ public class FirstOpMode extends Opmode {
         Harvister.setPower(0);
 
         Servo.setPosition(0);
+
+        LeftServo.setPosition(0);
+
+        RightServo.setPosition(0);
 
         ColorSensor.enableLed(true);
         boharvister = false;
@@ -192,6 +198,15 @@ public class FirstOpMode extends Opmode {
                 if (40 < blue && blue > red)
                 {
                     Servo.setPosition(1);
+                }
+
+                if (gamepad2.dpad_left)
+                {
+                    LeftServo.setPosition(1);
+                }
+                if (gamepad2.dpad_right)
+                {
+                    RightServo.setPosition(1);
                 }
 
                 telemetry.addData("left: ",left  );

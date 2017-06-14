@@ -31,4 +31,7 @@ public abstract class Opmode extends LinearOpMode {
 
     protected Servo Servo;
 
+    protected Servo LeftServo;
+    protected Servo RightServo;
+
 }
