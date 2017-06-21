@@ -3,6 +3,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
 
  * Created by nathan on 2/5/2017.
@@ -62,6 +64,7 @@ public class FirstOpMode extends Opmode {
         double winchpower;
 
         double red,green,blue;
+
         boolean boharvister, boreharvister;
 
         leftMotor1 = hardwareMap.dcMotor.get("left1_drive");
@@ -114,6 +117,22 @@ public class FirstOpMode extends Opmode {
         telemetry.addData("Say", "ready"); //
 
         telemetry.update();
+
+        telemetry.setAutoClear(false);
+
+        Telemetry.Item leftItem = telemetry.addData("left","%5.1f", 0.0);
+        Telemetry.Item rightItem = telemetry.addData("right","%5.1f", 0.0);
+        Telemetry.Item redItem = telemetry.addData("red","%5.1f", 0.0);
+        Telemetry.Item greenItem = telemetry.addData("green","%5.1f", 0.0);
+        Telemetry.Item blueItem = telemetry.addData("blue","%5.1f", 0.0);
+        Telemetry.Item harvisterItem = telemetry.addData("harvister","%5.1f", 0.0);
+        Telemetry.Item reharvisterItem = telemetry.addData("reharvister","%5.1f", 0.0);
+        Telemetry.Item pwharvisterItem = telemetry.addData("pwharvister","%5.1f", 0.0);
+        Telemetry.Item winchItem = telemetry.addData("winch","%5.1f", 0.0);
+
+
+
+
 
 // Wait for the game to start (driver presses PLAY)
 
@@ -202,22 +221,29 @@ public class FirstOpMode extends Opmode {
 
                 if (gamepad2.dpad_left)
                 {
-                    LeftServo.setPosition(1);
+                    LeftServo.setPosition(-1);
                 }
+
                 if (gamepad2.dpad_right)
                 {
                     RightServo.setPosition(1);
                 }
+                if (gamepad2.dpad_up)
+                {
+                    LeftServo.setPosition(0);
+                    RightServo.setPosition(0);
+                }
 
-                telemetry.addData("left: ",left  );
-                telemetry.addData("right: ", right);
-                telemetry.addData("red: ", red);
-                telemetry.addData("green: ", green);
-                telemetry.addData("blue: ", blue);
-                telemetry.addData("Harister: ", boharvister);
-                telemetry.addData("reHarvister",boreharvister);
-                telemetry.addData("Harvister", Harvister.getPower());
-                telemetry.addData("winch", winchpower);
+
+                leftItem.setValue("%5.1f",left);
+                rightItem.setValue("%5.1f",right);
+                redItem.setValue("%5.1f",red);
+                greenItem.setValue("%5.1f",green);
+                blueItem.setValue("%5.1f",blue);
+                harvisterItem.setValue("%s",boharvister?"true":"false");
+                reharvisterItem.setValue("%s",boreharvister?"true":"false");
+                pwharvisterItem.setValue("%5.1f",Harvister.getPower());
+                winchItem.setValue("%5.1f",winchpower);
                 telemetry.update();
 
 
@@ -225,17 +251,17 @@ public class FirstOpMode extends Opmode {
 
 // Pause for metronome tick. 40 mS each cycle = update 25 times a second.
 
-                waitForTick(40);
+                idle();
 
             }
 
         }
 
-        catch (java.lang.InterruptedException exc)
+        catch (Exception exc)
 
         {
 
-            return;
+            exc.printStackTrace();
 
         }
 
