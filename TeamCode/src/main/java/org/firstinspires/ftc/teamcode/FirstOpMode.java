@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
  */
 
-@TeleOp(name="HI", group="Practice-Bot")
+@TeleOp(name="H2O FLOW", group="Practice-Bot")
 
 public class FirstOpMode extends Opmode {
 
