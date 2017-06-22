@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -103,7 +104,7 @@ public class FirstOpMode extends Opmode {
 
         LeftServo.setPosition(0);
 
-        RightServo.setPosition(0);
+        RightServo.setPosition(1);
 
         ColorSensor.enableLed(true);
         boharvister = false;
@@ -221,7 +222,7 @@ public class FirstOpMode extends Opmode {
 
                 if (gamepad2.dpad_left)
                 {
-                    LeftServo.setPosition(-1);
+                    LeftServo.setPosition(1);
                 }
 
                 if (gamepad2.dpad_right)
