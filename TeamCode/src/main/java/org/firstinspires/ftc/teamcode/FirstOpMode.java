@@ -62,7 +62,7 @@ public class FirstOpMode extends Opmode {
         double winchpower;
 
         double red,green,blue;
-        boolean boharvister, boreharvister;
+        boolean boharvester, boreharvester;
 
         leftMotor1 = hardwareMap.dcMotor.get("left1_drive");
         leftMotor2 = hardwareMap.dcMotor.get("left2_drive");
@@ -71,10 +71,10 @@ public class FirstOpMode extends Opmode {
         rightMotor1 = hardwareMap.dcMotor.get("right1_drive");
         rightMotor2 = hardwareMap.dcMotor.get("right2_drive");
 
-        Harvister = hardwareMap.dcMotor.get("Harvister");
-        Harvister2 = hardwareMap.dcMotor.get("harvister2");
-        whinch = hardwareMap.dcMotor.get("Winch");
-        whinch2 = hardwareMap.dcMotor.get("winch2");
+        Harvester = hardwareMap.dcMotor.get("Harvester");
+        Harvester2 = hardwareMap.dcMotor.get("harvester2");
+        winch = hardwareMap.dcMotor.get("Winch");
+        winch2 = hardwareMap.dcMotor.get("winch2");
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
         LeftServo = hardwareMap.servo.get("LeftServo");
@@ -82,7 +82,7 @@ public class FirstOpMode extends Opmode {
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
-        whinch2.setDirection(DcMotorSimple.Direction.REVERSE);
+        winch2.setDirection(DcMotorSimple.Direction.REVERSE);
 
 // Set all motors to zero power
 
@@ -94,7 +94,7 @@ public class FirstOpMode extends Opmode {
 
         rightMotor2.setPower(0);
 
-        Harvister.setPower(0);
+        Harvester.setPower(0);
 
         Servo.setPosition(0);
 
@@ -103,8 +103,8 @@ public class FirstOpMode extends Opmode {
         RightServo.setPosition(0);
 
         ColorSensor.enableLed(true);
-        boharvister = false;
-        boreharvister = false;
+        boharvester = false;
+        boreharvester = false;
 
 
 
@@ -134,38 +134,38 @@ public class FirstOpMode extends Opmode {
                 if (gamepad1.a)
                 {
                     sleep(50);
-                    boharvister ^= true;
-                    if (boreharvister == true)
+                    boharvester ^= true;
+                    if (boreharvester == true)
                     {
-                        boreharvister = false;
+                        boreharvester = false;
                     }
                 }
 
                 if (gamepad1.left_bumper & gamepad1.a)
                 {
                     sleep(50);
-                    boreharvister ^= true;
-                    if (boharvister == true)
+                    boreharvester ^= true;
+                    if (boharvester == true)
                     {
-                        boharvister = false;
+                        boharvester = false;
                     }
                 }
 
 
-                if (boharvister == true)
+                if (boharvester == true)
                 {
-                    Harvister.setPower(1);
-                    Harvister2.setPower(-1);
+                    Harvester.setPower(1);
+                    Harvester2.setPower(-1);
                 }
-                if (boharvister == false && boreharvister == false)
+                if (boharvester == false && boreharvester == false)
                 {
-                    Harvister.setPower(0);
-                    Harvister2.setPower(0);
+                    Harvester.setPower(0);
+                    Harvester2.setPower(0);
                 }
-                if (boreharvister == true)
+                if (boreharvester == true)
                 {
-                    Harvister.setPower(-1);
-                    Harvister2.setPower(1);
+                    Harvester.setPower(-1);
+                    Harvester2.setPower(1);
                 }
 
                 if (gamepad1.x)
@@ -183,8 +183,8 @@ public class FirstOpMode extends Opmode {
 
 
                 winchpower = gamepad2.right_trigger;
-                whinch.setPower(winchpower);
-                whinch2.setPower(winchpower);
+                winch.setPower(winchpower);
+                winch2.setPower(winchpower);
 
 
                 red = ColorSensor.red();
@@ -214,9 +214,9 @@ public class FirstOpMode extends Opmode {
                 telemetry.addData("red: ", red);
                 telemetry.addData("green: ", green);
                 telemetry.addData("blue: ", blue);
-                telemetry.addData("Harister: ", boharvister);
-                telemetry.addData("reHarvister",boreharvister);
-                telemetry.addData("Harvister", Harvister.getPower());
+                telemetry.addData("Harister: ", boharvester);
+                telemetry.addData("reHarvester",boreharvester);
+                telemetry.addData("Harvester", Harvester.getPower());
                 telemetry.addData("winch", winchpower);
                 telemetry.update();
 
@@ -249,10 +249,10 @@ public class FirstOpMode extends Opmode {
 
             rightMotor2.setPower(0);
 
-            Harvister.setPower(0);
-            Harvister2.setPower(0);
-            whinch.setPower(0);
-            whinch2.setPower(0);
+            Harvester.setPower(0);
+            Harvester2.setPower(0);
+            winch.setPower(0);
+            winch2.setPower(0);
 
         }
 
