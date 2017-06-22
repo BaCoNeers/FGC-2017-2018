@@ -94,7 +94,7 @@ public abstract class FGOpMode extends LinearOpMode {
      */
     protected void setOperationsCompleted() {
         this.operationsCompleted = true;
-        telemetry.addData("Opmode Status", "Operations completed");
+        telemetry.addData("TeamOpMode Status", "Operations completed");
     }
 
     public TimerComponent getTimer() {

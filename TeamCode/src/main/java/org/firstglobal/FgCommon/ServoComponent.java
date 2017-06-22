@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.util.Range;
 
 
 /**
- * Component for performing actions on a Servo
+ * Component for performing actions on a servoSorter
  */
 public class ServoComponent extends OpModeComponent {
 
 
     private Servo servo;
-    // position of the servo
+    // position of the servoSorter
     private double servoPosition;
     private boolean reverse;
 
@@ -34,7 +34,7 @@ public class ServoComponent extends OpModeComponent {
      * @param opMode
      * @param servo
      * @param initialPosition
-     * @param reverseOrientation true if the servo is install in the reverse orientation
+     * @param reverseOrientation true if the servoSorter is install in the reverse orientation
      */
     public ServoComponent(FGOpMode opMode, Servo servo, double initialPosition, boolean reverseOrientation) {
 
@@ -44,15 +44,15 @@ public class ServoComponent extends OpModeComponent {
 
         this.reverse = reverseOrientation;
 
-        // set the starting position of the servo
+        // set the starting position of the servoSorter
         updateServoTargetPosition(initialPosition);
 
-        opMode.telemetry.addData("adding servo component pos: " , initialPosition);
+        opMode.telemetry.addData("adding servoSorter component pos: " , initialPosition);
 
     }
 
     /**
-     * Assign a new value to the servo's position
+     * Assign a new value to the servoSorter's position
      *
      * @param newServoPosition
      */
@@ -72,7 +72,7 @@ public class ServoComponent extends OpModeComponent {
     }
 
     /**
-     * Increment the value of the servo with the new value passed in
+     * Increment the value of the servoSorter with the new value passed in
      *
      * @param newServoPosition
      */
@@ -83,7 +83,7 @@ public class ServoComponent extends OpModeComponent {
     }
 
     /**
-     * Accessor method for servo position
+     * Accessor method for servoSorter position
      *
      * @return
      */

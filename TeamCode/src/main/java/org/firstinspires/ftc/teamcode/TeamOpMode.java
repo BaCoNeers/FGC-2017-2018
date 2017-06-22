@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by nathan on 5/05/2017.
  */
 
-public abstract class Opmode extends LinearOpMode {
+public abstract class TeamOpMode extends LinearOpMode {
 
     protected DcMotor leftMotor1;
 
@@ -19,19 +19,19 @@ public abstract class Opmode extends LinearOpMode {
 
     protected DcMotor rightMotor2;
 
-    protected DcMotor Harvister;
+    protected DcMotor harvesterHorizontal;
 
-    protected DcMotor Harvister2;
+    protected DcMotor harvesterVertical;
 
-    protected DcMotor whinch;
+    protected DcMotor winch;
 
-    protected DcMotor whinch2;
+    protected DcMotor winch2;
 
-    protected ColorSensor ColorSensor;
+    protected ColorSensor colorSensor;
 
-    protected Servo Servo;
+    protected Servo servoSorter;
 
-    protected Servo LeftServo;
-    protected Servo RightServo;
+    protected Servo leftServo;
+    protected Servo rightServo;
 
 }

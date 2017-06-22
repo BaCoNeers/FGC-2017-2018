@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * named on the activated configuration on the robot.
  */
 public class KanaloaBase extends RobotConfiguration {
-    // Left and right is viewed in the frame of the robot with the front being the harvester
+    // Left and right is viewed in the frame of the robot with the front being the harvesterHorizontal
 
     // Left motors
     public DcMotor LeftLeft;

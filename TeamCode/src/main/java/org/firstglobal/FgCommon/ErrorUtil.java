@@ -12,9 +12,9 @@ public class ErrorUtil {
 
 
     public static void handleCatchAllException(Throwable e , Telemetry telemetry) throws InterruptedException {
-        telemetry.addData("Opmode Exception", e.getMessage());
+        telemetry.addData("TeamOpMode Exception", e.getMessage());
         String stckTrace = stackTraceAsString(e);
-        telemetry.addData("Opmode Stacktrace", stckTrace.substring(0, 200));
+        telemetry.addData("TeamOpMode Stacktrace", stckTrace.substring(0, 200));
         telemetry.update();
 
         if (e instanceof InterruptedException) {
