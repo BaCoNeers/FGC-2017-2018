@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.utils.MovingAverageTimer;
 
 /**
 
@@ -127,7 +128,8 @@ public class FirstOpMode extends Opmode {
         telemetry.update();
 
         telemetry.setAutoClear(false);
-
+		
+        Telemetry.Item avgItem = telemetry.addData("average" , "%12.3f", 0.0);
         Telemetry.Item leftItem = telemetry.addData("left","%5.1f", 0.0);
         Telemetry.Item rightItem = telemetry.addData("right","%5.1f", 0.0);
         Telemetry.Item redItem = telemetry.addData("red","%5.1f", 0.0);
@@ -149,12 +151,16 @@ public class FirstOpMode extends Opmode {
 
         waitForStart();
 
-
+        // Create a MovingAverageTimer object so that we can time each iteration of the loop
+        MovingAverageTimer avg = new MovingAverageTimer();
+		
         try {
 
 // run until the end of the match (driver presses STOP)
 
             while (opModeIsActive()) {
+                // Update and recalculate the average
+                avg.update();
 
                 double rotation1 = -gamepad1.left_stick_x /2;
                 double power1 = gamepad1.left_trigger - gamepad1.right_trigger;
@@ -253,7 +259,7 @@ public class FirstOpMode extends Opmode {
                     RightServo.setPosition(0);
                 }
 
-
+                avgItem.setValue("%12.3f",avg.average());
                 leftItem.setValue("%5.1f",left);
                 rightItem.setValue("%5.1f",right);
                 redItem.setValue("%5.1f",red);
