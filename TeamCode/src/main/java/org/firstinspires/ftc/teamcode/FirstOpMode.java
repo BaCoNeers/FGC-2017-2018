@@ -63,6 +63,7 @@ public class FirstOpMode extends Opmode {
         double left;
         double right;
         double winchpower;
+        double ambred,ambblue;
 
         double red,green,blue;
 
@@ -126,6 +127,9 @@ public class FirstOpMode extends Opmode {
         Telemetry.Item redItem = telemetry.addData("red","%5.1f", 0.0);
         Telemetry.Item greenItem = telemetry.addData("green","%5.1f", 0.0);
         Telemetry.Item blueItem = telemetry.addData("blue","%5.1f", 0.0);
+        Telemetry.Item ambredItem = telemetry.addData("ambred","%5.1f", 0.0);
+        Telemetry.Item ambgreenItem = telemetry.addData("ambred", "%5.1f", 0.0);
+        Telemetry.Item ambblueItem = telemetry.addData("ambblue","%5.1f",0.0);
         Telemetry.Item harvisterItem = telemetry.addData("harvister","%5.1f", 0.0);
         Telemetry.Item reharvisterItem = telemetry.addData("reharvister","%5.1f", 0.0);
         Telemetry.Item pwharvisterItem = telemetry.addData("pwharvister","%5.1f", 0.0);
@@ -194,6 +198,26 @@ public class FirstOpMode extends Opmode {
                     right = right/2;
 
                 }
+                red = ColorSensor.red();
+                blue = ColorSensor.blue();
+                green = ColorSensor.green();
+
+                if (tiptime < (time + 0.5)) {
+                    if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue) {
+                        Servo.setPosition(0.5);
+                    } else if (ambred + 50 < red && red > blue) {
+                        Servo.setPosition(1);
+                        tiptime = time;
+                    } else if (ambblue + 50 < blue && blue > red) {
+                        Servo.setPosition(0);
+                        tiptime = time;
+                    }
+
+                }
+                if (gamepad2.a) {
+                    ambblue = ColorSensor.blue();
+                    ambred = ColorSensor.red();
+                }
 
 
                 leftMotor1.setPower(left);
@@ -207,18 +231,6 @@ public class FirstOpMode extends Opmode {
                 whinch2.setPower(winchpower);
 
 
-                red = ColorSensor.red();
-                blue = ColorSensor.blue();
-                green = ColorSensor.green();
-
-                if (40< red && red > blue)
-                {
-                    Servo.setPosition(0);
-                }
-                if (40 < blue && blue > red)
-                {
-                    Servo.setPosition(1);
-                }
 
                 if (gamepad2.dpad_left)
                 {
@@ -241,6 +253,9 @@ public class FirstOpMode extends Opmode {
                 redItem.setValue("%5.1f",red);
                 greenItem.setValue("%5.1f",green);
                 blueItem.setValue("%5.1f",blue);
+                ambredItem.setValue("%5.1f",ambred);
+                ambgreenItem.setValue("%5.1f",ambgreen);
+                ambblueItem.setValue("%5.1f",ambblue);
                 harvisterItem.setValue("%s",boharvister?"true":"false");
                 reharvisterItem.setValue("%s",boreharvister?"true":"false");
                 pwharvisterItem.setValue("%5.1f",Harvister.getPower());
