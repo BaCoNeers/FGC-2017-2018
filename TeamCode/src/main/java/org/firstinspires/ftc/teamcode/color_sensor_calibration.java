@@ -63,6 +63,7 @@ public class color_sensor_calibration extends Opmode {
 
         double red,green,blue;
         double ambred,ambgreen,ambblue;
+        boolean boambeant = true;
 
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
@@ -105,26 +106,32 @@ public class color_sensor_calibration extends Opmode {
                 blue = ColorSensor.blue();
                 green = ColorSensor.green();
 
-                if ( ambred + 20 < red && red > blue)
-                {
-                    Servo.setPosition(1);
-                }else if (ambred - 20 > red && red > blue )
+                if ( ambred + 50 < red && red > blue && boambeant == false)
                 {
                     Servo.setPosition(1);
                 }
 
-                if (ambblue + 20 < blue && blue > red)
-                {
-                    Servo.setPosition(1);
-                }else if (ambblue - 20 > blue && blue > red)
+                if (ambblue + 50 < blue && blue > red && boambeant == false)
                 {
                     Servo.setPosition(1);
                 }
 
 
-                if (ambred + 20 > red && ambred - 20 < red & ambblue + 20 > blue && ambblue - 20 < blue)
+                if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue)
                 {
                     Servo.setPosition(0.5);
+                    boambeant = true;
+                }
+                if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue)
+                {
+                    Servo.setPosition(0.5);
+                    boambeant = true;
+                }
+
+                if (ambred + 20 < red || ambred - 20 > red || ambblue + 20 < blue || ambblue - 20 > blue)
+                {
+
+                    boambeant = false;
                 }
 
 

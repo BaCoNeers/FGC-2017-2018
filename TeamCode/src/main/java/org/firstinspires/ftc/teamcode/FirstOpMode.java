@@ -147,7 +147,7 @@ public class FirstOpMode extends Opmode {
             while (opModeIsActive()) {
 
                 double rotation1 = -gamepad1.left_stick_x /2;
-                double power1 = gamepad1.right_trigger - gamepad1.left_trigger;
+                double power1 = gamepad1.left_trigger - gamepad1.right_trigger;
                 left = power1 + rotation1;
                 right = power1 - rotation1;
 
