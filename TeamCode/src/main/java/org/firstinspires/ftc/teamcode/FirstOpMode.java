@@ -64,6 +64,7 @@ public class FirstOpMode extends Opmode {
         double right;
         double winchpower;
         double ambred,ambblue;
+        double tiptime;
 
         double red,green,blue;
 
@@ -110,6 +111,11 @@ public class FirstOpMode extends Opmode {
         ColorSensor.enableLed(true);
         boharvister = false;
         boreharvister = false;
+
+        tiptime = time;
+        ambred = ColorSensor.red();
+
+        ambblue = ColorSensor.blue();
 
 
 
@@ -203,7 +209,7 @@ public class FirstOpMode extends Opmode {
                 green = ColorSensor.green();
 
                 if (tiptime < (time + 0.5)) {
-                    if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue) {
+                    if (ambred + 40 > red && ambred - 40 < red && ambblue + 40 > blue && ambblue - 40 < blue) {
                         Servo.setPosition(0.5);
                     } else if (ambred + 50 < red && red > blue) {
                         Servo.setPosition(1);
@@ -254,7 +260,6 @@ public class FirstOpMode extends Opmode {
                 greenItem.setValue("%5.1f",green);
                 blueItem.setValue("%5.1f",blue);
                 ambredItem.setValue("%5.1f",ambred);
-                ambgreenItem.setValue("%5.1f",ambgreen);
                 ambblueItem.setValue("%5.1f",ambblue);
                 harvisterItem.setValue("%s",boharvister?"true":"false");
                 reharvisterItem.setValue("%s",boreharvister?"true":"false");
