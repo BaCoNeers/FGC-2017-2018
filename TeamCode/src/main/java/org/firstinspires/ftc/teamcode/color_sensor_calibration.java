@@ -63,7 +63,8 @@ public class color_sensor_calibration extends Opmode {
 
         double red,green,blue;
         double ambred,ambgreen,ambblue;
-        boolean boambeant = true;
+        double tiptime;
+
 
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
@@ -94,7 +95,7 @@ public class color_sensor_calibration extends Opmode {
 // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
-
+         tiptime = time;
 
         try {
 
@@ -106,32 +107,21 @@ public class color_sensor_calibration extends Opmode {
                 blue = ColorSensor.blue();
                 green = ColorSensor.green();
 
-                if ( ambred + 50 < red && red > blue && boambeant == false)
-                {
-                    Servo.setPosition(1);
+                if (tiptime < (time + 0.5)) {
+                    if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue) {
+                        Servo.setPosition(0.5);
+                    } else if (ambred + 50 < red && red > blue) {
+                        Servo.setPosition(1);
+                        tiptime = time;
+                    } else if (ambblue + 50 < blue && blue > red) {
+                        Servo.setPosition(0);
+                        tiptime = time;
+                    }
+
                 }
-
-                if (ambblue + 50 < blue && blue > red && boambeant == false)
-                {
-                    Servo.setPosition(1);
-                }
-
-
-                if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue)
-                {
-                    Servo.setPosition(0.5);
-                    boambeant = true;
-                }
-                if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue)
-                {
-                    Servo.setPosition(0.5);
-                    boambeant = true;
-                }
-
-                if (ambred + 20 < red || ambred - 20 > red || ambblue + 20 < blue || ambblue - 20 > blue)
-                {
-
-                    boambeant = false;
+                if (gamepad2.a) {
+                    ambblue = ColorSensor.blue();
+                    ambred = ColorSensor.red();
                 }
 
 
