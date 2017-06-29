@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name="color sensor calibration test", group="Practice-Bot")
 
-public class color_sensor_calibration extends Opmode {
+public class color_sensor_calibration extends TeamOpMode {
 
     private ElapsedTime period = new ElapsedTime();
 
@@ -66,19 +66,19 @@ public class color_sensor_calibration extends Opmode {
         double tiptime;
 
 
-        ColorSensor = hardwareMap.colorSensor.get("color");
-        Servo = hardwareMap.servo.get("servo");
+        colorSensor = hardwareMap.colorSensor.get("color");
+        servoSorter = hardwareMap.servo.get("servo");
 
 // Set all motors to zero power
 
 
-        Servo.setPosition(0);
+        servoSorter.setPosition(0);
 
-        ColorSensor.enableLed(true);
+        colorSensor.enableLed(true);
 
-        ambred = ColorSensor.red();
-        ambgreen = ColorSensor.green();
-        ambblue = ColorSensor.blue();
+        ambred = colorSensor.red();
+        ambgreen = colorSensor.green();
+        ambblue = colorSensor.blue();
 
 
 // Send telemetry message to signify robot waiting;
@@ -103,25 +103,25 @@ public class color_sensor_calibration extends Opmode {
 
             while (opModeIsActive()) {
 
-                red = ColorSensor.red();
-                blue = ColorSensor.blue();
-                green = ColorSensor.green();
+                red = colorSensor.red();
+                blue = colorSensor.blue();
+                green = colorSensor.green();
 
                 if (tiptime < (time + 0.5)) {
                     if (ambred + 20 > red && ambred - 20 < red && ambblue + 20 > blue && ambblue - 20 < blue) {
-                        Servo.setPosition(0.5);
+                        servoSorter.setPosition(0.5);
                     } else if (ambred + 50 < red && red > blue) {
-                        Servo.setPosition(1);
+                        servoSorter.setPosition(1);
                         tiptime = time;
                     } else if (ambblue + 50 < blue && blue > red) {
-                        Servo.setPosition(0);
+                        servoSorter.setPosition(0);
                         tiptime = time;
                     }
 
                 }
                 if (gamepad2.a) {
-                    ambblue = ColorSensor.blue();
-                    ambred = ColorSensor.red();
+                    ambblue = colorSensor.blue();
+                    ambred = colorSensor.red();
                 }
 
 

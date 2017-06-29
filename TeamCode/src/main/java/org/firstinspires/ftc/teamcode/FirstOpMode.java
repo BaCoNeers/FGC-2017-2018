@@ -15,50 +15,9 @@ import org.firstinspires.ftc.teamcode.utils.MovingAverageTimer;
 
 @TeleOp(name="H2O FLOW", group="Practice-Bot")
 
-public class FirstOpMode extends Opmode {
-
-    private ElapsedTime period = new ElapsedTime();
-
-    /***
-
-     *
-
-     * waitForTick implements a periodic delay. However, this acts like a metronome
-
-     * with a regular periodic tick. This is used to compensate for varying
-
-     * processing times for each cycle. The function looks at the elapsed cycle time,
-
-     * and sleeps for the remaining time interval.
-
-     *
-
-     * @param periodMs Length of wait cycle in mSec.
-
-    FIRST Global Java SDK Startup Guide - Rev 0 Copyright 2017 REV Robotics, LLC 18
-
-     */
-
-    private void waitForTick(long periodMs) throws java.lang.InterruptedException {
-
-        long remaining = periodMs - (long)period.milliseconds();
-
-// sleep for the remaining portion of the regular cycle period.
-
-        if (remaining > 0) {
-
-            Thread.sleep(remaining);
-
-        }
-
-// Reset the cycle clock for the next pass.
-
-        period.reset();
-
-    }
+public class FirstOpMode extends TeamOpMode {
 
     @Override
-
     public void runOpMode() {
 
         double left;
@@ -74,57 +33,48 @@ public class FirstOpMode extends Opmode {
         leftMotor1 = hardwareMap.dcMotor.get("left1_drive");
         leftMotor2 = hardwareMap.dcMotor.get("left2_drive");
 
-
         rightMotor1 = hardwareMap.dcMotor.get("right1_drive");
         rightMotor2 = hardwareMap.dcMotor.get("right2_drive");
 
-        Harvister = hardwareMap.dcMotor.get("Harvister");
-        Harvister2 = hardwareMap.dcMotor.get("harvister2");
-        whinch = hardwareMap.dcMotor.get("Winch");
-        whinch2 = hardwareMap.dcMotor.get("winch2");
-        ColorSensor = hardwareMap.colorSensor.get("color");
-        Servo = hardwareMap.servo.get("servo");
-        LeftServo = hardwareMap.servo.get("LeftServo");
-        RightServo = hardwareMap.servo.get("RightServo");
+        harvesterHorizontal = hardwareMap.dcMotor.get("Harvister");
+        harvesterVertical = hardwareMap.dcMotor.get("harvister2");
+        winch = hardwareMap.dcMotor.get("Winch");
+        winch2 = hardwareMap.dcMotor.get("winch2");
+        colorSensor = hardwareMap.colorSensor.get("color");
+        servoSorter = hardwareMap.servo.get("servo");
+        leftServo = hardwareMap.servo.get("LeftServo");
+        rightServo = hardwareMap.servo.get("RightServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
-        whinch2.setDirection(DcMotorSimple.Direction.REVERSE);
+        winch2.setDirection(DcMotorSimple.Direction.REVERSE);
 
 // Set all motors to zero power
 
         leftMotor1.setPower(0);
-
         leftMotor2.setPower(0);
-
         rightMotor1.setPower(0);
-
         rightMotor2.setPower(0);
 
-        Harvister.setPower(0);
+        harvesterVertical.setPower(0);
+        harvesterHorizontal.setPower(0);
 
-        Servo.setPosition(0);
+        servoSorter.setPosition(0);
+        leftServo.setPosition(0);
+        rightServo.setPosition(1);
 
-        LeftServo.setPosition(0);
-
-        RightServo.setPosition(1);
-
-        ColorSensor.enableLed(true);
+        colorSensor.enableLed(true);
         boharvister = false;
         boreharvister = false;
 
         tiptime = time;
-        ambred = ColorSensor.red();
-
-        ambblue = ColorSensor.blue();
-
-
+        ambred = colorSensor.red();
+        ambblue = colorSensor.blue();
 
 
 // Send telemetry message to signify robot waiting;
 
-        telemetry.addData("Say", "ready"); //
-
+        telemetry.addData("Say", "ready");
         telemetry.update();
 
         telemetry.setAutoClear(false);
@@ -190,18 +140,18 @@ public class FirstOpMode extends Opmode {
 
                 if (boharvister == true)
                 {
-                    Harvister.setPower(1);
-                    Harvister2.setPower(-1);
+                    harvesterHorizontal.setPower(1);
+                    harvesterVertical.setPower(-1);
                 }
                 if (boharvister == false && boreharvister == false)
                 {
-                    Harvister.setPower(0);
-                    Harvister2.setPower(0);
+                    harvesterHorizontal.setPower(0);
+                    harvesterVertical.setPower(0);
                 }
                 if (boreharvister == true)
                 {
-                    Harvister.setPower(-1);
-                    Harvister2.setPower(1);
+                    harvesterHorizontal.setPower(-1);
+                    harvesterVertical.setPower(1);
                 }
 
                 if (gamepad1.x)
@@ -210,25 +160,25 @@ public class FirstOpMode extends Opmode {
                     right = right/2;
 
                 }
-                red = ColorSensor.red();
-                blue = ColorSensor.blue();
-                green = ColorSensor.green();
+                red = colorSensor.red();
+                blue = colorSensor.blue();
+                green = colorSensor.green();
 
                 if (tiptime < (time + 0.5)) {
                     if (ambred + 40 > red && ambred - 40 < red && ambblue + 40 > blue && ambblue - 40 < blue) {
-                        Servo.setPosition(0.5);
+                        servoSorter.setPosition(0.5);
                     } else if (ambred + 50 < red && red > blue) {
-                        Servo.setPosition(1);
+                        servoSorter.setPosition(1);
                         tiptime = time;
                     } else if (ambblue + 50 < blue && blue > red) {
-                        Servo.setPosition(0);
+                        servoSorter.setPosition(0);
                         tiptime = time;
                     }
 
                 }
                 if (gamepad2.a) {
-                    ambblue = ColorSensor.blue();
-                    ambred = ColorSensor.red();
+                    ambblue = colorSensor.blue();
+                    ambred = colorSensor.red();
                 }
 
 
@@ -239,24 +189,24 @@ public class FirstOpMode extends Opmode {
 
 
                 winchpower = gamepad2.right_trigger;
-                whinch.setPower(winchpower);
-                whinch2.setPower(winchpower);
+                winch.setPower(winchpower);
+                winch2.setPower(winchpower);
 
 
 
                 if (gamepad2.dpad_left)
                 {
-                    LeftServo.setPosition(1);
+                    leftServo.setPosition(1);
                 }
 
                 if (gamepad2.dpad_right)
                 {
-                    RightServo.setPosition(1);
+                    rightServo.setPosition(1);
                 }
                 if (gamepad2.dpad_up)
                 {
-                    LeftServo.setPosition(0);
-                    RightServo.setPosition(0);
+                    leftServo.setPosition(0);
+                    rightServo.setPosition(0);
                 }
 
                 avgItem.setValue("%12.3f",avg.average());
@@ -269,14 +219,9 @@ public class FirstOpMode extends Opmode {
                 ambblueItem.setValue("%5.1f",ambblue);
                 harvisterItem.setValue("%s",boharvister?"true":"false");
                 reharvisterItem.setValue("%s",boreharvister?"true":"false");
-                pwharvisterItem.setValue("%5.1f",Harvister.getPower());
+                pwharvisterItem.setValue("%5.1f",harvesterHorizontal.getPower());
                 winchItem.setValue("%5.1f",winchpower);
                 telemetry.update();
-
-
-
-
-// Pause for metronome tick. 40 mS each cycle = update 25 times a second.
 
                 idle();
 
@@ -302,10 +247,10 @@ public class FirstOpMode extends Opmode {
 
             rightMotor2.setPower(0);
 
-            Harvister.setPower(0);
-            Harvister2.setPower(0);
-            whinch.setPower(0);
-            whinch2.setPower(0);
+            harvesterHorizontal.setPower(0);
+            harvesterVertical.setPower(0);
+            winch.setPower(0);
+            winch2.setPower(0);
 
         }
 

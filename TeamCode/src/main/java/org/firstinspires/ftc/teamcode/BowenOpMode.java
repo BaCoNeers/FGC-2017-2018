@@ -15,48 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BowenOpMode extends TeamOpMode {
 
-    private ElapsedTime period = new ElapsedTime();
-
-    /***
-
-     *
-
-     * waitForTick implements a periodic delay. However, this acts like a metronome
-
-     * with a regular periodic tick. This is used to compensate for varying
-
-     * processing times for each cycle. The function looks at the elapsed cycle time,
-
-     * and sleeps for the remaining time interval.
-
-     *
-
-     * @param periodMs Length of wait cycle in mSec.
-
-    FIRST Global Java SDK Startup Guide - Rev 0 Copyright 2017 REV Robotics, LLC 18
-
-     */
-
-    private void waitForTick(long periodMs) throws java.lang.InterruptedException {
-
-        long remaining = periodMs - (long)period.milliseconds();
-
-// sleep for the remaining portion of the regular cycle period.
-
-        if (remaining > 0) {
-
-            Thread.sleep(remaining);
-
-        }
-
-// Reset the cycle clock for the next pass.
-
-        period.reset();
-
-    }
-
     @Override
-
     public void runOpMode() {
 
         double left;
@@ -112,9 +71,6 @@ public class BowenOpMode extends TeamOpMode {
         harvesterHorizontalOn = false;
         harvesterVerticalOn = false;
 
-
-
-
 // Send telemetry message to signify robot waiting;
 
         telemetry.addData("Say", "ready"); //
@@ -132,10 +88,6 @@ public class BowenOpMode extends TeamOpMode {
         Telemetry.Item harvesterVertItem = telemetry.addData("harvestervert","%5.1f", 0.0);
         Telemetry.Item harvesterPowerItem = telemetry.addData("harvesterHoripw","%5.1f", 0.0);
         Telemetry.Item winchItem = telemetry.addData("winch","%5.1f", 0.0);
-
-
-
-
 
 // Wait for the game to start (driver presses PLAY)
 
