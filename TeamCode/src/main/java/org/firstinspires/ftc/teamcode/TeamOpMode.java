@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,6 +33,6 @@ public abstract class TeamOpMode extends LinearOpMode {
     protected Servo servoSorter;
 
     protected Servo leftServo;
-    protected Servo rightServo;
+    protected CRServo backServo;
 
 }

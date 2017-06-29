@@ -43,7 +43,7 @@ public class FirstOpMode extends TeamOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         servoSorter = hardwareMap.servo.get("servo");
         leftServo = hardwareMap.servo.get("LeftServo");
-        rightServo = hardwareMap.servo.get("RightServo");
+        backServo = hardwareMap.crservo.get("RightServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -61,7 +61,7 @@ public class FirstOpMode extends TeamOpMode {
 
         servoSorter.setPosition(0);
         leftServo.setPosition(0);
-        rightServo.setPosition(1);
+        backServo.setPower(0);
 
         colorSensor.enableLed(true);
         boharvister = false;
@@ -201,7 +201,7 @@ public class FirstOpMode extends TeamOpMode {
 
                 if (gamepad2.dpad_right)
                 {
-                    rightServo.setPosition(1);
+                    backServo.setPower(1);
                 }
                 if (gamepad2.dpad_up)
                 {
@@ -251,6 +251,7 @@ public class FirstOpMode extends TeamOpMode {
             harvesterVertical.setPower(0);
             winch.setPower(0);
             winch2.setPower(0);
+            backServo.setPower(0);
 
         }
 
