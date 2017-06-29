@@ -85,7 +85,7 @@ public class FirstOpMode extends Opmode {
         ColorSensor = hardwareMap.colorSensor.get("color");
         Servo = hardwareMap.servo.get("servo");
         LeftServo = hardwareMap.servo.get("LeftServo");
-        RightServo = hardwareMap.servo.get("RightServo");
+        BackServo = hardwareMap.crservo.get("RightServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -107,7 +107,7 @@ public class FirstOpMode extends Opmode {
 
         LeftServo.setPosition(0);
 
-        RightServo.setPosition(1);
+        BackServo.setPower(0);
 
         ColorSensor.enableLed(true);
         boharvister = false;
@@ -251,7 +251,7 @@ public class FirstOpMode extends Opmode {
 
                 if (gamepad2.dpad_right)
                 {
-                    RightServo.setPosition(1);
+                    BackServo.setPower(1);
                 }
                 if (gamepad2.dpad_up)
                 {
@@ -306,6 +306,7 @@ public class FirstOpMode extends Opmode {
             Harvister2.setPower(0);
             whinch.setPower(0);
             whinch2.setPower(0);
+            BackServo.setPower(0);
 
         }
 
