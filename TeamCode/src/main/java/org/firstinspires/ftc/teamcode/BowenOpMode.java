@@ -108,7 +108,7 @@ public class BowenOpMode extends TeamOpMode {
 
                 // Harvester functions
 
-                if (gamepad1.a)
+                if (gamepad2.a)
                 {
                     // Allow 150ms of buffer between changing states
                     if (lastPressedA + 0.15 < time) {
@@ -117,7 +117,7 @@ public class BowenOpMode extends TeamOpMode {
                     }
                 }
 
-                if (gamepad1.b)
+                if (gamepad2.b)
                 {
                     // Allow 150ms of buffer between changing states
                     if (lastPressedB + 0.15 < time) {
@@ -148,9 +148,12 @@ public class BowenOpMode extends TeamOpMode {
                 rightMotor2.setPower(right);
 
                 // Winch
-                winchPower = gamepad2.right_trigger;
-                winch.setPower(winchPower);
-                winch2.setPower(winchPower);
+                if (gamepad2.y) {
+                    winchPower = gamepad2.right_trigger;
+                }else { winchPower = 0}
+                    winch.setPower(winchPower);
+                    winch2.setPower(winchPower);
+
 
 
                 red = colorSensor.red();
@@ -169,7 +172,7 @@ public class BowenOpMode extends TeamOpMode {
                     }
 
                 }
-                if (gamepad2.a) {
+                if (gamepad2.left_stick_button) {
                     ambblue = colorSensor.blue();
                     ambred = colorSensor.red();
                 }
@@ -182,11 +185,14 @@ public class BowenOpMode extends TeamOpMode {
 
                 if (gamepad2.dpad_right)
                 {
-                    backServo.setPower(1);
+                    leftServo.setPosition(0);
                 }
                 if (gamepad2.dpad_up)
                 {
-                    leftServo.setPosition(0);
+                    backServo.setPower(1);
+                }
+                if (gamepad2.dpad_down)
+                {
                     backServo.setPower(0);
                 }
 
