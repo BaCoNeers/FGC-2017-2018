@@ -1,4 +1,4 @@
-package baconeers.common;
+package org.baconeers.common;
 
 /**
  * Base class for components used in BaconOpModes

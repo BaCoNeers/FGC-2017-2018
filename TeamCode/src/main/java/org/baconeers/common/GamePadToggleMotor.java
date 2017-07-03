@@ -1,11 +1,9 @@
-package baconeers.common;
+package org.baconeers.common;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstglobal.FgCommon.FGOpMode;
-import org.firstglobal.FgCommon.GamePadMotor;
 import org.firstglobal.FgCommon.OpModeComponent;
 
 

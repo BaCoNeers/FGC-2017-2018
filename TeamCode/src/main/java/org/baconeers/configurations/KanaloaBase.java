@@ -1,4 +1,4 @@
-package baconeers.configurations;
+package org.baconeers.configurations;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;

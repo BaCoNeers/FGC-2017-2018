@@ -1,4 +1,4 @@
-package baconeers.common;
+package org.baconeers.common;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;

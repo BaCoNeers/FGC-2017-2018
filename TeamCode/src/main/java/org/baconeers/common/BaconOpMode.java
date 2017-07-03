@@ -1,8 +1,8 @@
-package baconeers.common;
+package org.baconeers.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import baconeers.utils.MovingAverageTimer;
+import org.baconeers.utils.MovingAverageTimer;
 import org.firstglobal.FgCommon.ErrorUtil;
 
 /**

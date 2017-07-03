@@ -1,12 +1,12 @@
-package baconeers.opmode;
+package org.baconeers.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import baconeers.common.BaconOpMode;
-import baconeers.common.GamePadDualMotorSteerDrive;
+import org.baconeers.common.BaconOpMode;
+import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import baconeers.configurations.KanaloaBase;
+import org.baconeers.configurations.KanaloaBase;
 
 
 @TeleOp(group = "Steer Drive")

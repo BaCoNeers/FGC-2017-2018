@@ -1,4 +1,4 @@
-package baconeers.utils;
+package org.baconeers.utils;
 
 /**
  * Created by Shaun on 11/06/2017.
