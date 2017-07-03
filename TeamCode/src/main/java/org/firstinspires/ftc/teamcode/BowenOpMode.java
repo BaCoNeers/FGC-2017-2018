@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.utils.MovingAverageTimer;
 
 /**
 
@@ -21,13 +23,12 @@ public class BowenOpMode extends TeamOpMode {
         double left;
         double right;
         double winchPower;
-
         double red,green,blue;
-
         boolean harvesterHorizontalOn, harvesterVerticalOn;
-
         double lastPressedA = time;
         double lastPressedB = time;
+        double ambred,ambblue;
+        double tiptime;
 
         leftMotor1 = hardwareMap.dcMotor.get("left1_drive");
         leftMotor2 = hardwareMap.dcMotor.get("left2_drive");
@@ -43,11 +44,12 @@ public class BowenOpMode extends TeamOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         servoSorter = hardwareMap.servo.get("servo");
         leftServo = hardwareMap.servo.get("LeftServo");
-        rightServo = hardwareMap.servo.get("RightServo");
+        backServo = hardwareMap.crservo.get("BackServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         winch2.setDirection(DcMotorSimple.Direction.REVERSE);
+        backServo.setDirection(CRServo.Direction.REVERSE);
 
 // Set all motors to zero power
 
@@ -59,31 +61,34 @@ public class BowenOpMode extends TeamOpMode {
 
         rightMotor2.setPower(0);
 
+        harvesterVertical.setPower(0);
+
         harvesterHorizontal.setPower(0);
 
         servoSorter.setPosition(0);
 
         leftServo.setPosition(0);
 
-        rightServo.setPosition(1);
+        backServo.setPower(0);
 
         colorSensor.enableLed(true);
         harvesterHorizontalOn = false;
         harvesterVerticalOn = false;
 
-// Send telemetry message to signify robot waiting;
+        tiptime = time;
+        ambred = colorSensor.red();
+        ambblue = colorSensor.blue();
 
-        telemetry.addData("Say", "ready"); //
-
-        telemetry.update();
 
         telemetry.setAutoClear(false);
-
+        Telemetry.Item avgItem = telemetry.addData("average" , "%12.3f", 0.0);
         Telemetry.Item leftItem = telemetry.addData("left","%5.1f", 0.0);
         Telemetry.Item rightItem = telemetry.addData("right","%5.1f", 0.0);
         Telemetry.Item redItem = telemetry.addData("red","%5.1f", 0.0);
         Telemetry.Item greenItem = telemetry.addData("green","%5.1f", 0.0);
         Telemetry.Item blueItem = telemetry.addData("blue","%5.1f", 0.0);
+        Telemetry.Item ambredItem = telemetry.addData("ambred","%5.1f", 0.0);
+        Telemetry.Item ambblueItem = telemetry.addData("ambblue","%5.1f",0.0);
         Telemetry.Item harvesterHorizontalItem = telemetry.addData("harvesthorz","%5.1f", 0.0);
         Telemetry.Item harvesterVertItem = telemetry.addData("harvestervert","%5.1f", 0.0);
         Telemetry.Item harvesterPowerItem = telemetry.addData("harvesterHoripw","%5.1f", 0.0);
@@ -92,7 +97,8 @@ public class BowenOpMode extends TeamOpMode {
 // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
-
+// Create a MovingAverageTimer object so that we can time each iteration of the loop
+        MovingAverageTimer avg = new MovingAverageTimer();
 
         try {
 
@@ -151,14 +157,23 @@ public class BowenOpMode extends TeamOpMode {
                 blue = colorSensor.blue();
                 green = colorSensor.green();
 
-                if (40< red && red > blue)
-                {
-                    servoSorter.setPosition(0);
+                if (tiptime < (time + 0.5)) {
+                    if (ambred + 40 > red && ambred - 40 < red && ambblue + 40 > blue && ambblue - 40 < blue) {
+                        servoSorter.setPosition(0.5);
+                    } else if (ambred + 50 < red && red > blue) {
+                        servoSorter.setPosition(1);
+                        tiptime = time;
+                    } else if (ambblue + 50 < blue && blue > red) {
+                        servoSorter.setPosition(0);
+                        tiptime = time;
+                    }
+
                 }
-                if (40 < blue && blue > red)
-                {
-                    servoSorter.setPosition(1);
+                if (gamepad2.a) {
+                    ambblue = colorSensor.blue();
+                    ambred = colorSensor.red();
                 }
+
 
                 if (gamepad2.dpad_left)
                 {
@@ -167,20 +182,22 @@ public class BowenOpMode extends TeamOpMode {
 
                 if (gamepad2.dpad_right)
                 {
-                    rightServo.setPosition(1);
+                    backServo.setPower(1);
                 }
                 if (gamepad2.dpad_up)
                 {
                     leftServo.setPosition(0);
-                    rightServo.setPosition(0);
+                    backServo.setPower(0);
                 }
 
-
+                avgItem.setValue("%12.3f",avg.average());
                 leftItem.setValue("%5.1f",left);
                 rightItem.setValue("%5.1f",right);
                 redItem.setValue("%5.1f",red);
                 greenItem.setValue("%5.1f",green);
                 blueItem.setValue("%5.1f",blue);
+                ambredItem.setValue("%5.1f",ambred);
+                ambblueItem.setValue("%5.1f",ambblue);
                 harvesterHorizontalItem.setValue("%s",harvesterHorizontalOn?"true":"false");
                 harvesterVertItem.setValue("%s",harvesterVerticalOn?"true":"false");
                 harvesterPowerItem.setValue("%5.1f", harvesterHorizontal.getPower());
@@ -220,7 +237,7 @@ public class BowenOpMode extends TeamOpMode {
             harvesterVertical.setPower(0);
             winch.setPower(0);
             winch2.setPower(0);
-
+            backServo.setPower(0);
         }
 
     }

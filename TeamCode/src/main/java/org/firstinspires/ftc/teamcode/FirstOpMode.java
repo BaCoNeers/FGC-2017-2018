@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.MovingAverageTimer;
+
 
 /**
 
@@ -43,11 +45,12 @@ public class FirstOpMode extends TeamOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         servoSorter = hardwareMap.servo.get("servo");
         leftServo = hardwareMap.servo.get("LeftServo");
-        backServo = hardwareMap.crservo.get("RightServo");
+        backServo = hardwareMap.crservo.get("BackServo");
 
         rightMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         winch2.setDirection(DcMotorSimple.Direction.REVERSE);
+        backServo.setDirection(CRServo.Direction.REVERSE);
 
 // Set all motors to zero power
 
@@ -74,8 +77,7 @@ public class FirstOpMode extends TeamOpMode {
 
 // Send telemetry message to signify robot waiting;
 
-        telemetry.addData("Say", "ready");
-        telemetry.update();
+
 
         telemetry.setAutoClear(false);
 		
@@ -86,7 +88,6 @@ public class FirstOpMode extends TeamOpMode {
         Telemetry.Item greenItem = telemetry.addData("green","%5.1f", 0.0);
         Telemetry.Item blueItem = telemetry.addData("blue","%5.1f", 0.0);
         Telemetry.Item ambredItem = telemetry.addData("ambred","%5.1f", 0.0);
-        Telemetry.Item ambgreenItem = telemetry.addData("ambred", "%5.1f", 0.0);
         Telemetry.Item ambblueItem = telemetry.addData("ambblue","%5.1f",0.0);
         Telemetry.Item harvisterItem = telemetry.addData("harvister","%5.1f", 0.0);
         Telemetry.Item reharvisterItem = telemetry.addData("reharvister","%5.1f", 0.0);
@@ -206,7 +207,7 @@ public class FirstOpMode extends TeamOpMode {
                 if (gamepad2.dpad_up)
                 {
                     leftServo.setPosition(0);
-                    rightServo.setPosition(0);
+                    backServo.setPower(0);
                 }
 
                 avgItem.setValue("%12.3f",avg.average());
