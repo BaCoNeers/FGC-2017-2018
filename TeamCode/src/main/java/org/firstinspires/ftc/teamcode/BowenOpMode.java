@@ -150,7 +150,7 @@ public class BowenOpMode extends TeamOpMode {
                 // Winch
                 if (gamepad2.y) {
                     winchPower = gamepad2.right_trigger;
-                }else { winchPower = 0}
+                }else { winchPower = 0;}
                     winch.setPower(winchPower);
                     winch2.setPower(winchPower);
 

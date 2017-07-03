@@ -1,8 +1,11 @@
 package baconeers.configurations;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstglobal.FgCommon.RobotConfiguration;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,22 +20,30 @@ public class KanaloaBase extends RobotConfiguration {
     // Left and right is viewed in the frame of the robot with the front being the harvester
 
     // Left motors
-    public DcMotor LeftLeft;
-    public DcMotor LeftRight;
+    public DcMotor driveLeftLeft;
+    public DcMotor driveLeftRight;
 
     // Right motors
-    public DcMotor RightLeft;
-    public DcMotor RightRight;
+    public DcMotor driveRightLeft;
+    public DcMotor driveRightRight;
 
     // Winch motors
-    public DcMotor WinchLeft;
-    public DcMotor WinchRight;
+    public DcMotor winchLeft;
+    public DcMotor winchRight;
 
     // Harvester motors
-    public DcMotor HarvesterPrimary;
-    public DcMotor HarvesterSecondary;
+    public DcMotor harvesterPrimary;
+    public DcMotor harvesterSecondary;
 
+    // Color Sensor
+    public ColorSensor sorterColorSensor;
+    public Servo sorterServo;
 
+    // Ball release left
+    public Servo orangeBallRelease;
+
+    // Ball release rear
+    public CRServo blueBallRelease;
 
 
     /**
@@ -46,16 +57,27 @@ public class KanaloaBase extends RobotConfiguration {
 
         setTelemetry(telemetry);
 
-        LeftLeft = (DcMotor) getHardwareOn("motor0", hardwareMap.dcMotor);
-        LeftRight = (DcMotor) getHardwareOn("motor1", hardwareMap.dcMotor);
-        LeftRight.setDirection(DcMotor.Direction.REVERSE);
+        driveLeftLeft = (DcMotor) getHardwareOn("left1_drive", hardwareMap.dcMotor);
+        driveLeftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        driveLeftRight = (DcMotor) getHardwareOn("left2_drive", hardwareMap.dcMotor);
 
-        RightLeft = (DcMotor) getHardwareOn("motor2", hardwareMap.dcMotor);
-        RightRight = (DcMotor) getHardwareOn("motor3", hardwareMap.dcMotor);
-        RightRight.setDirection(DcMotor.Direction.REVERSE);
+        driveRightLeft = (DcMotor) getHardwareOn("right1_drive", hardwareMap.dcMotor);
+        driveRightLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        driveRightRight = (DcMotor) getHardwareOn("right2_drive", hardwareMap.dcMotor);
 
+        winchLeft = hardwareMap.dcMotor.get("Winch");
+        winchLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        winchRight = hardwareMap.dcMotor.get("winch2");
 
+        harvesterPrimary = hardwareMap.dcMotor.get("Harvister");
+        harvesterSecondary = hardwareMap.dcMotor.get("harvister2");
 
+        sorterColorSensor = hardwareMap.colorSensor.get("color");
+        sorterServo = hardwareMap.servo.get("servo");
+
+        orangeBallRelease = hardwareMap.servo.get("LeftServo");
+        blueBallRelease = hardwareMap.crservo.get("BackServo");
+        blueBallRelease.setDirection(CRServo.Direction.REVERSE);
     }
 
 
@@ -71,7 +93,6 @@ public class KanaloaBase extends RobotConfiguration {
         KanaloaBase config = new KanaloaBase();
         config.init(hardwareMap, telemetry);
         return config;
-
     }
 
 
