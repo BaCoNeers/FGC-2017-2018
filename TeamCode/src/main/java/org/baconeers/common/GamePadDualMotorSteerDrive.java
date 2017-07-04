@@ -31,9 +31,13 @@ public class GamePadDualMotorSteerDrive extends BaconComponent {
         this.rightRightMotor = rightRightMotor;
 
         leftPowerItem = getOpMode().telemetry.addData("Left power", "%.2f", 0.0f);
+        leftPowerItem.setRetained(true);
         rightPowerItem = getOpMode().telemetry.addData("Right power", "%.2f", 0.0f);
+        rightPowerItem.setRetained(true);
         steerPowerItem = getOpMode().telemetry.addData("steer power", "%.2f", 0.0f);
+        steerPowerItem.setRetained(true);
         rawPowerItem = getOpMode().telemetry.addData("raw power", "%.2f", 0.0f);
+        rawPowerItem.setRetained(true);
     }
 
     /*
@@ -41,11 +45,21 @@ public class GamePadDualMotorSteerDrive extends BaconComponent {
      */
     public void update() {
 
-        float scalePower = scaleTriggerPower(gamepad.left_trigger - gamepad.right_trigger);
+//        float scalePower = scaleTriggerPower(gamepad.left_trigger - gamepad.right_trigger);
+        float scalePower = scaleTriggerPower(gamepad.left_stick_y);
 
         float steer = scaleSteerPower(gamepad.right_stick_x);
-        float leftPower = scalePower * ((steer < 0) ? 1.0f + steer : 1.0f);
-        float rightPower = scalePower * ((steer > 0) ? 1.0f - steer : 1.0f);
+        float leftPower;
+        float rightPower;
+        if (scalePower == 0.0f) {
+            leftPower = steer;
+            rightPower = -steer;
+        }
+        else {
+            leftPower = scalePower * ((steer < 0) ? 1.0f + steer : 1.0f);
+            rightPower = scalePower * ((steer > 0) ? 1.0f - steer : 1.0f);
+        }
+
 
         leftLeftMotor.setPower(leftPower);
         leftRightMotor.setPower(leftPower);
@@ -59,11 +73,7 @@ public class GamePadDualMotorSteerDrive extends BaconComponent {
     }
 
     private static float[] power_curve =
-            {0.00f, 0.05f, 0.05f, 0.08f, 0.12f
-                    , 0.15f, 0.18f, 0.24f, 0.30f, 0.36f
-                    , 0.43f, 0.50f, 0.60f, 0.72f, 0.85f
-                    , 1.00f, 1.00f
-            };
+            {0.00f, 0.1f, 0.3f, 0.7f, 1.0f, 1.0f };
 
     /**
      * The DC motors are scaled to make it easier to control them at slower speeds
@@ -90,7 +100,7 @@ public class GamePadDualMotorSteerDrive extends BaconComponent {
 
 
     private static float[] steer_curve =
-            {0.00f, 0.05f, 0.05f, 0.10f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f};
+            {0.00f, 0.2f, 0.2f, 0.4f, 0.6f, 0.7f, 0.8f, 1.0f};
 
     private float scaleSteerPower(float p_power) {
 

@@ -26,6 +26,12 @@ public class SteerDrive extends BaconOpMode {
 
         robot = KanaloaBase.newConfig(hardwareMap, telemetry);
 
+        drive = new GamePadDualMotorSteerDrive(this, gamepad1,
+                robot.driveLeftLeft,robot.driveLeftRight,
+                robot.driveRightLeft,robot.driveRightRight);
+
+        avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
+        avgItem.setRetained(true);
     }
 
     /**
@@ -35,10 +41,7 @@ public class SteerDrive extends BaconOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        drive = new GamePadDualMotorSteerDrive(this, gamepad1,
-                robot.driveLeftLeft,robot.driveLeftRight,
-                robot.driveRightLeft,robot.driveRightRight);
-        avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
+
     }
 
     /**

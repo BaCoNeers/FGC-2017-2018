@@ -5,35 +5,38 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstglobal.FgCommon.FGOpMode;
 import org.firstglobal.FgCommon.OpModeComponent;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 /**
  * Operation to assist with Gamepad actions on DCMotors
  */
-public class GamePadToggleMotor extends OpModeComponent {
-
-
-    // amount to change the servo position by
+public class GamePadToggleMotor extends BaconComponent {
 
     public enum Control {
-        DPAD_DOWN,
         DPAD_UP,
+        DPAD_DOWN,
         DPAD_LEFT,
         DPAD_RIGHT,
-        LB_RB_BUTTONS,
-        Y_BUTTON,
-        A_BUTTON,
-        X_BUTTON,
-        B_BUTTON,
+        A,
+        B,
+        X,
+        Y,
+        START,
+        BACK,
         LEFT_BUMPER,
-        RIGHT_BUMPER
+        RIGHT_BUMPER,
+        LEFT_STICK_BUTTON,
+        RIGHT_STICK_BUTTON
     }
 
-    private Control control;
-    private DcMotor motor;
-    private Gamepad gamepad;
-    private static final float defaultButtonPower = 0.3f;
-    private float buttonPower ;
+    private final Control control;
+    private final DcMotor motor;
+    private final Gamepad gamepad;
+    private final float motorPower;
+    private boolean motorOn = false;
+    private boolean lastButtonState = false;
+    private final Telemetry.Item item;
 
 
     /**
@@ -43,152 +46,95 @@ public class GamePadToggleMotor extends OpModeComponent {
      * @param gamepad Gamepad
      * @param motor   DcMotor to operate on
      * @param control {@link GamePadToggleMotor.Control}
-     * @param buttonPower power to apply when using gamepad buttons
+     * @param power   power to apply when using gamepad buttons
      */
-    public GamePadToggleMotor(FGOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower) {
-
+    public GamePadToggleMotor(BaconOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float power) {
         super(opMode);
+
         this.gamepad = gamepad;
         this.motor = motor;
         this.control = control;
-        this.buttonPower = buttonPower;
+        this.motorPower = power;
 
-
+        item = opMode.telemetry.addData("Control " + control.name(), 0.0f);
+        item.setRetained(true);
     }
 
 
+    /**
+     * Update motors with latest gamepad state
+     */
+    public void update() {
+        // Only toggle when the button state changes from false to true, ie when the
+        // button is pressed down (and not when the button comes back up)
+        boolean pressed = buttonPressed();
+        if (pressed && lastButtonState != pressed) {
+            motorOn = !motorOn;
+            float power = motorOn ? motorPower : 0.0f;
+            motor.setPower(power);
+            item.setValue(power);
+        }
+        lastButtonState = pressed;
+    }
 
-//    /**
-//     * Update motors with latest gamepad state
-//     */
-//    public void update() {
-//
-//        float power = 0;
-//
-//        //note that if y equal -1 then joystick is pushed all of the way forward.
-//        switch (control) {
-//            case LEFT_STICK_Y:
-//                power = scaleMotorPower(-gamepad.left_stick_y);
-//                break;
-//            case RIGHT_STICK_Y:
-//                power = scaleMotorPower(-gamepad.right_stick_y);
-//                break;
-//            case LEFT_STICK_X:
-//                power = scaleMotorPower(gamepad.left_stick_x);
-//                break;
-//            case RIGHT_STICK_X:
-//                power = scaleMotorPower(gamepad.right_stick_x);
-//                break;
-//            default:
-//                power = motorPowerFromButtons();
-//                break;
-//        }
-//
-//        getOpMode().telemetry.addData("setting power: " + control.toString(), power);
-//
-//        motor.setPower(power);
-//
-//    }
-//
-//    public void startRunMode(DcMotor.RunMode runMode) throws InterruptedException {
-//        motor.setMode(runMode);
-//        getOpMode().waitOneFullHardwareCycle();
-//
-//    }
-//
-//    private float motorPowerFromButtons() {
-//
-//        float powerToReturn = 0f;
-//        boolean y = gamepad.y;
-//        boolean a = gamepad.a;
-//        boolean x = gamepad.x;
-//        boolean b = gamepad.b;
-//        boolean lb = gamepad.left_bumper;
-//        boolean rb = gamepad.right_bumper;
-//
-//        if (((control == Control.UP_DOWN_BUTTONS) && a) ||
-//                ((control == Control.LEFT_RIGHT_BUTTONS) && x)) {
-//            powerToReturn = -buttonPower;
-//        }
-//        if ((control == Control.LB_RB_BUTTONS) && lb) {
-//            powerToReturn = -buttonPower;
-//        }
-//        else {
-//            switch (control) {
-//                case UP_DOWN_BUTTONS:
-//                    if ( y) powerToReturn = buttonPower;
-//                case Y_BUTTON:
-//                    if ( y) powerToReturn = buttonPower;
-//                    break;
-//                case X_BUTTON:
-//                    if ( x) powerToReturn = buttonPower;
-//                    break;
-//                case A_BUTTON:
-//                    if ( a) powerToReturn = buttonPower;
-//                    break;
-//                case B_BUTTON:
-//                    if ( b) powerToReturn = buttonPower;
-//                    break;
-//                case LB_RB_BUTTONS:
-//                    if ( rb) powerToReturn = buttonPower;
-//                    break;
-//                case LEFT_BUMPER:
-//                    if ( lb) powerToReturn = buttonPower;
-//                    break;
-//                case RIGHT_BUMPER:
-//                    if ( rb) powerToReturn = buttonPower;
-//                    break;
-//                default:
-//                    powerToReturn = 0f;
-//                    break;
-//            }
-//        }
-//
-//        return powerToReturn;
-//
-//
-//    }
-//
-//
-//    /**
-//     * Taken from FTC SDK PushBotWithClaw example
-//     * The DC motors are scaled to make it easier to control them at slower speeds
-//     * Obtain the current values of the joystick controllers.
-//     * Note that x and y equal -1 when the joystick is pushed all of the way
-//     * forward (i.e. away from the human holder's body).
-//     * The clip method guarantees the value never exceeds the range +-1.
-//     */
-//    private float scaleMotorPower(float p_power) {
-//
-//        // Assume no scaling.
-//        float l_scale = 0.0f;
-//
-//        // Ensure the values are legal.
-//        float l_power = Range.clip(p_power, -1, 1);
-//
-//        float[] l_array =
-//                {0.00f, 0.05f, 0.09f, 0.10f, 0.12f
-//                        , 0.15f, 0.18f, 0.24f, 0.30f, 0.36f
-//                        , 0.43f, 0.50f, 0.60f, 0.72f, 0.85f
-//                        , 1.00f, 1.00f
-//                };
-//
-//        int l_index = (int) (l_power * 16.0);
-//        if (l_index < 0) {
-//            l_index = -l_index;
-//        } else if (l_index > 16) {
-//            l_index = 16;
-//        }
-//
-//        if (l_power < 0) {
-//            l_scale = -l_array[l_index];
-//        } else {
-//            l_scale = l_array[l_index];
-//        }
-//
-//        return l_scale;
-//
-//    }
+    private boolean buttonPressed() {
+        boolean buttonPressed = false;
+        switch (control) {
+
+            case DPAD_UP:
+                buttonPressed = gamepad.dpad_up;
+                break;
+            case DPAD_DOWN:
+                buttonPressed = gamepad.dpad_down;
+                break;
+            case DPAD_LEFT:
+                buttonPressed = gamepad.dpad_left;
+                break;
+            case DPAD_RIGHT:
+                buttonPressed = gamepad.dpad_right;
+                break;
+            case A:
+                // ignore if start is also pressed to avoid triggering when initialising the
+                // controllers
+                if (!gamepad.start) {
+                    buttonPressed = gamepad.a;
+                }
+                break;
+            case B:
+                // ignore if start is also pressed to avoid triggering when initialising the
+                // controllers
+                if (!gamepad.start) {
+                    buttonPressed = gamepad.b;
+                }
+                break;
+            case X:
+                buttonPressed = gamepad.x;
+                break;
+            case Y:
+                buttonPressed = gamepad.y;
+                break;
+            case START:
+                buttonPressed = gamepad.start;
+                break;
+            case BACK:
+                buttonPressed = gamepad.back;
+                break;
+            case LEFT_BUMPER:
+                buttonPressed = gamepad.left_bumper;
+                break;
+            case RIGHT_BUMPER:
+                buttonPressed = gamepad.right_bumper;
+                break;
+            case LEFT_STICK_BUTTON:
+                buttonPressed = gamepad.left_stick_button;
+                break;
+            case RIGHT_STICK_BUTTON:
+                buttonPressed = gamepad.right_stick_button;
+                break;
+        }
+
+        return buttonPressed;
+    }
 
 
 }
