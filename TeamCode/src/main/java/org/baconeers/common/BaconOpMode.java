@@ -1,9 +1,7 @@
 package org.baconeers.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.baconeers.utils.MovingAverageTimer;
-import org.firstglobal.FgCommon.ErrorUtil;
 
 /**
  * OpMode Abstract class that offers additional abstraction for opMode developers
@@ -26,6 +24,7 @@ public abstract class BaconOpMode extends LinearOpMode {
      */
     protected void onStart() throws InterruptedException {
         clearTelemetryData();
+        movingAverageTimer.reset();
     }
 
     /**

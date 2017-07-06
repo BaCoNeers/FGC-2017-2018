@@ -56,7 +56,7 @@ public class MovingAverageTimer {
     }
 
     public MovingAverageTimer(int num, Resolution resolution) {
-        previousTime = System.nanoTime();
+        reset();
         ringBufferSize = num;
         loopTimeRingBuffer = new long[ringBufferSize];
 
@@ -76,6 +76,15 @@ public class MovingAverageTimer {
                 toStringFormatStr = hdr + "msecs\n%-12d%-12.3f%-12.3f%-12.3f\n min        %-12.3f%-12.3f%-12.3f\n max        %-12.3f%-12.3f%-12.3f";
                 break;
         }
+    }
+
+    public void reset() {
+        loopCount = 0;
+        previousTime = System.nanoTime();
+        movingTotal = 0;
+        runningTotal = 0;
+        movingAverage = 0;
+        average = 0.0;
     }
 
     public void update() {

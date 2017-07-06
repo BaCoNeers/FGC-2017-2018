@@ -3,8 +3,6 @@ package org.baconeers.common;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstglobal.FgCommon.FGOpMode;
-import org.firstglobal.FgCommon.OpModeComponent;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
@@ -13,24 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class GamePadToggleMotor extends BaconComponent {
 
-    public enum Control {
-        DPAD_UP,
-        DPAD_DOWN,
-        DPAD_LEFT,
-        DPAD_RIGHT,
-        A,
-        B,
-        X,
-        Y,
-        START,
-        BACK,
-        LEFT_BUMPER,
-        RIGHT_BUMPER,
-        LEFT_STICK_BUTTON,
-        RIGHT_STICK_BUTTON
-    }
-
-    private final Control control;
+    private final ButtonControl buttonControl;
     private final DcMotor motor;
     private final Gamepad gamepad;
     private final float motorPower;
@@ -43,21 +24,29 @@ public class GamePadToggleMotor extends BaconComponent {
      * Constructor for operation.  Telemetry enabled by default.
      *
      * @param opMode
-     * @param gamepad Gamepad
-     * @param motor   DcMotor to operate on
-     * @param control {@link GamePadToggleMotor.Control}
-     * @param power   power to apply when using gamepad buttons
+     * @param gamepad       Gamepad
+     * @param motor         DcMotor to operate on
+     * @param buttonControl {@link ButtonControl}
+     * @param power         power to apply when using gamepad buttons
+     * @param showTelemetry  display the power values on the telemetry
      */
-    public GamePadToggleMotor(BaconOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float power) {
+    public GamePadToggleMotor(BaconOpMode opMode, Gamepad gamepad, DcMotor motor, ButtonControl buttonControl, float power, boolean showTelemetry) {
         super(opMode);
 
         this.gamepad = gamepad;
         this.motor = motor;
-        this.control = control;
+        this.buttonControl = buttonControl;
         this.motorPower = power;
 
-        item = opMode.telemetry.addData("Control " + control.name(), 0.0f);
-        item.setRetained(true);
+        if (showTelemetry) {
+            item = opMode.telemetry.addData("Control " + buttonControl.name(), 0.0f);
+            item.setRetained(true);
+        } else {
+            item = null;
+        }
+    }
+    public GamePadToggleMotor(BaconOpMode opMode, Gamepad gamepad, DcMotor motor, ButtonControl buttonControl, float power) {
+        this(opMode,gamepad,motor,buttonControl,power,true);
     }
 
 
@@ -67,73 +56,17 @@ public class GamePadToggleMotor extends BaconComponent {
     public void update() {
         // Only toggle when the button state changes from false to true, ie when the
         // button is pressed down (and not when the button comes back up)
-        boolean pressed = buttonPressed();
+        boolean pressed = buttonPressed(gamepad, buttonControl);
         if (pressed && lastButtonState != pressed) {
             motorOn = !motorOn;
             float power = motorOn ? motorPower : 0.0f;
             motor.setPower(power);
-            item.setValue(power);
+            if (item != null) {
+                item.setValue(power);
+            }
+            getOpMode().telemetry.log().add("%s motor power: %.2f", buttonControl.name(), power);
         }
         lastButtonState = pressed;
-    }
-
-    private boolean buttonPressed() {
-        boolean buttonPressed = false;
-        switch (control) {
-
-            case DPAD_UP:
-                buttonPressed = gamepad.dpad_up;
-                break;
-            case DPAD_DOWN:
-                buttonPressed = gamepad.dpad_down;
-                break;
-            case DPAD_LEFT:
-                buttonPressed = gamepad.dpad_left;
-                break;
-            case DPAD_RIGHT:
-                buttonPressed = gamepad.dpad_right;
-                break;
-            case A:
-                // ignore if start is also pressed to avoid triggering when initialising the
-                // controllers
-                if (!gamepad.start) {
-                    buttonPressed = gamepad.a;
-                }
-                break;
-            case B:
-                // ignore if start is also pressed to avoid triggering when initialising the
-                // controllers
-                if (!gamepad.start) {
-                    buttonPressed = gamepad.b;
-                }
-                break;
-            case X:
-                buttonPressed = gamepad.x;
-                break;
-            case Y:
-                buttonPressed = gamepad.y;
-                break;
-            case START:
-                buttonPressed = gamepad.start;
-                break;
-            case BACK:
-                buttonPressed = gamepad.back;
-                break;
-            case LEFT_BUMPER:
-                buttonPressed = gamepad.left_bumper;
-                break;
-            case RIGHT_BUMPER:
-                buttonPressed = gamepad.right_bumper;
-                break;
-            case LEFT_STICK_BUTTON:
-                buttonPressed = gamepad.left_stick_button;
-                break;
-            case RIGHT_STICK_BUTTON:
-                buttonPressed = gamepad.right_stick_button;
-                break;
-        }
-
-        return buttonPressed;
     }
 
 
