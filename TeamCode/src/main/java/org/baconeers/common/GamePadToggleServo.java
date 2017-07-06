@@ -16,7 +16,7 @@ public class GamePadToggleServo extends BaconComponent {
     private final Servo redservo;
     private final Gamepad gamepad;
 
-    private double lastPosition = -1;
+    private double lastPosition = -1.0;
 
     public GamePadToggleServo(BaconOpMode opMode, Gamepad gamepad, Servo redservo) {
         super(opMode);
@@ -34,13 +34,13 @@ public class GamePadToggleServo extends BaconComponent {
         // button is pressed down (and not when the button comes back up)
         double position = -1.0;
         boolean pressed = false;
-        if (buttonPressed(gamepad, ButtonControl.DPAD_DOWN)){
+        if (buttonPressed(gamepad, ButtonControl.DPAD_DOWN)) {
             position = 0.5;
             pressed = true;
-        }else if (buttonPressed(gamepad, ButtonControl.DPAD_LEFT)) {
+        } else if (buttonPressed(gamepad, ButtonControl.DPAD_LEFT)) {
             position = 1.0;
             pressed = true;
-        }else if (buttonPressed(gamepad, ButtonControl.DPAD_RIGHT)){
+        } else if (buttonPressed(gamepad, ButtonControl.DPAD_RIGHT)) {
             position = 0;
             pressed = true;
         }
@@ -49,11 +49,11 @@ public class GamePadToggleServo extends BaconComponent {
         if (pressed && lastPosition != position) {
 
             redservo.setPosition(position);
-                    }
-            getOpMode().telemetry.log().add("%s red servo: %.2f", postion);
+            getOpMode().telemetry.log().add("%s red servo: %.2f", position);
         }
+
         lastPosition = position;
     }
-
-
 }
+
+
