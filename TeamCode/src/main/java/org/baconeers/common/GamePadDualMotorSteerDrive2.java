@@ -60,29 +60,53 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
 
         float steerFactor = 0.5f;
 
-        if (rightTriggerOn && rightBumperOn) {
+        if (rightBumperOn && rightTriggerOn && gamepad.b) {
+            triggerPower = -slowPower;
+            steerFactor = 0.75f;
+        }
+        else if (rightTriggerOn && rightBumperOn) {
             triggerPower = -mediumPower;
+            steerFactor = 0.75f;
+        }
+        else if (rightTriggerOn && gamepad.b) {
+            triggerPower = -slowPower;
             steerFactor = 0.75f;
         }
         else if (rightTriggerOn) {
             triggerPower = -fastPower;
             steerFactor = 0.5f;
         }
-        else if (rightBumperOn){
+        else if (rightBumperOn && gamepad.b) {
             triggerPower = -slowPower;
             steerFactor = 0.75f;
         }
+        else if (rightBumperOn){
+            triggerPower = -mediumPower;
+            steerFactor = 0.75f;
+        }
         else {
-            if (leftTriggerOn && leftBumperOn){
+            if (leftBumperOn && leftTriggerOn && gamepad.b) {
+                triggerPower = slowPower;
+                steerFactor = 0.75f;
+            }
+            else if (leftTriggerOn && leftBumperOn) {
                 triggerPower = mediumPower;
                 steerFactor = 0.75f;
             }
-            else if (leftTriggerOn){
+            else if (leftTriggerOn && gamepad.b) {
+                triggerPower = slowPower;
+                steerFactor = 0.75f;
+            }
+            else if (leftTriggerOn) {
                 triggerPower = fastPower;
                 steerFactor = 0.5f;
             }
-            else if (leftBumperOn){
+            else if (leftBumperOn && gamepad.b) {
                 triggerPower = slowPower;
+                steerFactor = 0.75f;
+            }
+            else if (leftBumperOn){
+                triggerPower = mediumPower;
                 steerFactor = 0.75f;
             }
             else {
@@ -93,6 +117,7 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
         float steer = scaleSteerPower(gamepad.left_stick_x);
         float leftPower;
         float rightPower;
+
         if (triggerPower == 0.0f) {
             if (gamepad.b) {
                 leftPower = -steer/2.0f;
