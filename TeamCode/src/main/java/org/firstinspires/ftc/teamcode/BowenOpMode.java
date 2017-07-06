@@ -50,6 +50,7 @@ public class BowenOpMode extends TeamOpMode {
         leftMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
         winch2.setDirection(DcMotorSimple.Direction.REVERSE);
         backServo.setDirection(CRServo.Direction.REVERSE);
+        harvesterVertical.setDirection(DcMotorSimple.Direction.REVERSE);
 
 // Set all motors to zero power
 
@@ -132,7 +133,7 @@ public class BowenOpMode extends TeamOpMode {
 
                 // Drive functions
                 double rotation1 = -gamepad1.left_stick_x /2;
-                double power1 = gamepad1.right_trigger - gamepad1.left_trigger;
+                double power1 = gamepad1.left_trigger - gamepad1.right_trigger;
                 left = power1 + rotation1;
                 right = power1 - rotation1;
 
@@ -160,14 +161,14 @@ public class BowenOpMode extends TeamOpMode {
                 blue = colorSensor.blue();
                 green = colorSensor.green();
 
-                if (tiptime < (time + 0.5)) {
+                if (tiptime < (time + 0.85)) {
                     if (ambred + 40 > red && ambred - 40 < red && ambblue + 40 > blue && ambblue - 40 < blue) {
-                        servoSorter.setPosition(0.5);
+                        servoSorter.setPosition(0.9);
                     } else if (ambred + 50 < red && red > blue) {
-                        servoSorter.setPosition(1);
+                        servoSorter.setPosition(0.85);
                         tiptime = time;
                     } else if (ambblue + 50 < blue && blue > red) {
-                        servoSorter.setPosition(0);
+                        servoSorter.setPosition(0.8);
                         tiptime = time;
                     }
 

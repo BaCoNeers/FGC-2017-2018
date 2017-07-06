@@ -8,6 +8,7 @@ import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
 import org.baconeers.common.GamePadToggleMotor;
+import org.baconeers.common.KanaloaBallSorter;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.baconeers.configurations.KanaloaBase;
@@ -23,6 +24,8 @@ public class SteerDrive extends BaconOpMode {
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
     private Telemetry.Item avgItem;
+    private KanaloaBallSorter kanaloaBallSorter;
+
 
 
     /**
@@ -39,12 +42,17 @@ public class SteerDrive extends BaconOpMode {
 
         winch = new GamePadSafeDualMotor(this, gamepad1, robot.winchLeft, robot.winchRight, ButtonControl.Y, ButtonControl.LEFT_BUMPER, 0.7f, false);
 
+        kanaloaBallSorter = new KanaloaBallSorter(this, robot.sorterColorSensor,robot.sorterServo);
+
+
         harvesterPrimary = new GamePadToggleMotor(this,gamepad1,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
         harvesterSecondary = new GamePadToggleMotor(this,gamepad1,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
 
 
         avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
         avgItem.setRetained(true);
+
+
     }
 
     /**
@@ -54,7 +62,7 @@ public class SteerDrive extends BaconOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-
+        kanaloaBallSorter.init();
     }
 
     /**
@@ -74,6 +82,10 @@ public class SteerDrive extends BaconOpMode {
         harvesterPrimary.update();
         harvesterSecondary.update();
 
+        //Update the Ball Sorter
+        if (loopCount % 10 ==0) {
+            kanaloaBallSorter.update();
+        }
         movingAverageTimer.update();
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
 

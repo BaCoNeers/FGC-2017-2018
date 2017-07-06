@@ -12,6 +12,7 @@ public abstract class BaconOpMode extends LinearOpMode {
 
     private boolean operationsCompleted;
     protected MovingAverageTimer movingAverageTimer;
+    protected long loopCount = 0;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -59,6 +60,7 @@ public abstract class BaconOpMode extends LinearOpMode {
 
             try {
                 activeLoop();
+                loopCount++;
             } catch (Throwable e) {
                 ErrorUtil.handleCatchAllException(e, telemetry);
             }
