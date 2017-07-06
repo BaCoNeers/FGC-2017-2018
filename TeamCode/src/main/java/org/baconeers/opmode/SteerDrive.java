@@ -1,12 +1,14 @@
 package org.baconeers.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.baconeers.common.BaconOpMode;
 import org.baconeers.common.ButtonControl;
 import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
+import org.baconeers.common.GamePadToggleCRServo;
 import org.baconeers.common.GamePadToggleMotor;
 import org.baconeers.common.KanaloaBallSorter;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -23,6 +25,7 @@ public class SteerDrive extends BaconOpMode {
     private GamePadSafeDualMotor winch;
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
+    private GamePadToggleCRServo crServo;
     private Telemetry.Item avgItem;
     private KanaloaBallSorter kanaloaBallSorter;
 
@@ -44,6 +47,7 @@ public class SteerDrive extends BaconOpMode {
 
         kanaloaBallSorter = new KanaloaBallSorter(this, robot.sorterColorSensor,robot.sorterServo);
 
+        crServo = new GamePadToggleCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
 
         harvesterPrimary = new GamePadToggleMotor(this,gamepad1,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
         harvesterSecondary = new GamePadToggleMotor(this,gamepad1,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
@@ -81,6 +85,9 @@ public class SteerDrive extends BaconOpMode {
         // Update the Harvester
         harvesterPrimary.update();
         harvesterSecondary.update();
+
+        //Update the servo
+        crServo.update();
 
         //Update the Ball Sorter
         if (loopCount % 10 ==0) {

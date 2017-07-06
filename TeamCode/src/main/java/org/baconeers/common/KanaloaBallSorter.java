@@ -38,7 +38,7 @@ public class KanaloaBallSorter extends BaconComponent {
 
 
         if (showTelemetry) {
-            item = opMode.telemetry.addData("color", 0.0f);
+            item = opMode.telemetry.addData("red", 0.0f);
             item.setRetained(true);
         } else {
             item = null;
@@ -63,13 +63,14 @@ public class KanaloaBallSorter extends BaconComponent {
         if (red > 150)
         {
             servo.setPosition(0.875);
-            getOpMode().telemetry.log().add("%s red value: %.1f %.3f", "color",red,getOpMode().time);
+
         }else if(blue > 150){
             servo.setPosition(0.8);
         }
             if (item != null) {
                 item.setValue(red);
             }
+            getOpMode().telemetry.log().add("%s red value: %.1f blue value: %.1f %.3f", "color",red,blue,getOpMode().time);
     }
 
 

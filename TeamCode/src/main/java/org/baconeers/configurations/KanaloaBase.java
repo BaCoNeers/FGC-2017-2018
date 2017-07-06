@@ -39,6 +39,10 @@ public class KanaloaBase extends RobotConfiguration {
     public ColorSensor sorterColorSensor;
     public Servo sorterServo;
 
+    //servo gates
+    public CRServo bluecrservo;
+    public Servo redservo;
+
     // Ball release left
     public Servo orangeBallRelease;
 
@@ -75,6 +79,9 @@ public class KanaloaBase extends RobotConfiguration {
 
         sorterColorSensor = hardwareMap.colorSensor.get("color");
         sorterServo = hardwareMap.servo.get("servo");
+
+        bluecrservo = hardwareMap.crservo.get("BackServo");
+        redservo = hardwareMap.servo.get("LeftServo");
 
         orangeBallRelease = hardwareMap.servo.get("LeftServo");
         blueBallRelease = hardwareMap.crservo.get("BackServo");
