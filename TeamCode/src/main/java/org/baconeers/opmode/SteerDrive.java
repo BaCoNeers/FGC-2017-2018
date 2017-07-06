@@ -3,18 +3,22 @@ package org.baconeers.opmode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.baconeers.common.BaconOpMode;
+import org.baconeers.common.ButtonControl;
 import org.baconeers.common.GamePadDualMotorSteerDrive;
+import org.baconeers.common.GamePadToggleMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.baconeers.configurations.KanaloaBase;
 
 
-@TeleOp(group = "Steer Drive")
+@TeleOp(name = "SteerDrive2")
 //@Disabled
 public class SteerDrive extends BaconOpMode {
 
     private KanaloaBase robot;
     private GamePadDualMotorSteerDrive drive;
+    private GamePadToggleMotor harvesterPrimary;
+    private GamePadToggleMotor harvesterSecondary;
     private Telemetry.Item avgItem;
 
 
@@ -29,6 +33,10 @@ public class SteerDrive extends BaconOpMode {
         drive = new GamePadDualMotorSteerDrive(this, gamepad1,
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
+
+        harvesterPrimary = new GamePadToggleMotor(this,gamepad1,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
+        harvesterSecondary = new GamePadToggleMotor(this,gamepad1,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
+
 
         avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
         avgItem.setRetained(true);
@@ -53,6 +61,10 @@ public class SteerDrive extends BaconOpMode {
 
         //update the drive motors with the gamepad  values
         drive.update();
+
+        // Update the Harvester
+        harvesterPrimary.update();
+        harvesterSecondary.update();
 
         movingAverageTimer.update();
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());

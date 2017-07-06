@@ -71,6 +71,7 @@ public class KanaloaBase extends RobotConfiguration {
 
         harvesterPrimary = hardwareMap.dcMotor.get("Harvister");
         harvesterSecondary = hardwareMap.dcMotor.get("harvister2");
+        harvesterSecondary.setDirection(DcMotorSimple.Direction.REVERSE);
 
         sorterColorSensor = hardwareMap.colorSensor.get("color");
         sorterServo = hardwareMap.servo.get("servo");
