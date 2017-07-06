@@ -40,13 +40,13 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad1, robot.winchLeft, robot.winchRight, ButtonControl.Y, ButtonControl.LEFT_BUMPER, 0.7f, false);
+        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.Y, ButtonControl.LEFT_BUMPER, 0.7f, false);
 
         kanaloaBallSorter = new KanaloaBallSorter(this, robot.sorterColorSensor,robot.sorterServo);
 
 
-        harvesterPrimary = new GamePadToggleMotor(this,gamepad1,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
-        harvesterSecondary = new GamePadToggleMotor(this,gamepad1,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
+        harvesterPrimary = new GamePadToggleMotor(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
+        harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
 
 
         avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);

@@ -58,24 +58,32 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
         float mediumPower = 0.6f;
         float fastPower = 1.0f;
 
+        float steerFactor = 0.5f;
+
         if (rightTriggerOn && rightBumperOn) {
             triggerPower = -mediumPower;
+            steerFactor = 0.75f;
         }
         else if (rightTriggerOn) {
             triggerPower = -fastPower;
+            steerFactor = 0.5f;
         }
         else if (rightBumperOn){
             triggerPower = -slowPower;
+            steerFactor = 0.75f;
         }
         else {
             if (leftTriggerOn && leftBumperOn){
                 triggerPower = mediumPower;
+                steerFactor = 0.75f;
             }
             else if (leftTriggerOn){
                 triggerPower = fastPower;
+                steerFactor = 0.5f;
             }
             else if (leftBumperOn){
                 triggerPower = slowPower;
+                steerFactor = 0.75f;
             }
             else {
                 triggerPower = 0.0f;
@@ -86,12 +94,22 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
         float leftPower;
         float rightPower;
         if (triggerPower == 0.0f) {
-            leftPower = -steer;
-            rightPower = steer;
+            if (gamepad.b) {
+                leftPower = -steer/2.0f;
+                rightPower = steer/2.0f;
+            }
+            else {
+                leftPower = -steer;
+                rightPower = steer;
+            }
+        }
+        else if (triggerPower < 0){
+            rightPower = triggerPower * ((steer > 0) ? 1.0f - (steer * steerFactor) : 1.0f);
+            leftPower = triggerPower * ((steer < 0) ? 1.0f + (steer * steerFactor) : 1.0f);
         }
         else {
-            leftPower = triggerPower * ((steer > 0) ? 1.0f - steer : 1.0f);
-            rightPower = triggerPower * ((steer < 0) ? 1.0f + steer : 1.0f);
+            leftPower = triggerPower * ((steer > 0) ? 1.0f - (steer * steerFactor) : 1.0f);
+            rightPower = triggerPower * ((steer < 0) ? 1.0f + (steer * steerFactor) : 1.0f);
         }
 
 
