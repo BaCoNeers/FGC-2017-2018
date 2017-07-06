@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.baconeers.common.BaconOpMode;
 import org.baconeers.common.ButtonControl;
 import org.baconeers.common.GamePadDualMotorSteerDrive;
+import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
 import org.baconeers.common.GamePadToggleMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,7 +18,7 @@ import org.baconeers.configurations.KanaloaBase;
 public class SteerDrive extends BaconOpMode {
 
     private KanaloaBase robot;
-    private GamePadDualMotorSteerDrive drive;
+    private GamePadDualMotorSteerDrive2 drive;
     private GamePadSafeDualMotor winch;
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
@@ -32,7 +33,7 @@ public class SteerDrive extends BaconOpMode {
 
         robot = KanaloaBase.newConfig(hardwareMap, telemetry);
 
-        drive = new GamePadDualMotorSteerDrive(this, gamepad1,
+        drive = new GamePadDualMotorSteerDrive2(this, gamepad1,
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
