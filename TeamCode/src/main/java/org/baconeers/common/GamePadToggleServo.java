@@ -35,7 +35,7 @@ public class GamePadToggleServo extends BaconComponent {
         double position = -1.0;
         boolean pressed = false;
         if (buttonPressed(gamepad, ButtonControl.DPAD_DOWN)) {
-            position = 0.5;
+            position = 0.475;
             pressed = true;
         } else if (buttonPressed(gamepad, ButtonControl.DPAD_LEFT)) {
             position = 1.0;
