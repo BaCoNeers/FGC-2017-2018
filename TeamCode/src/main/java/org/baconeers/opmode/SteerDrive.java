@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.baconeers.configurations.KanaloaBase;
 
 
-@TeleOp(name = "SteerDrive2")
+@TeleOp(name = "H2O flow without telemetry")
 //@Disabled
 public class SteerDrive extends BaconOpMode {
 
@@ -47,9 +47,9 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, true);
+        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
 
-        kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo);
+        kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo, false);
 
         crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);

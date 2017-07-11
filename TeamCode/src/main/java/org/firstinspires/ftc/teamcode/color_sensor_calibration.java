@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @TeleOp(name="color sensor calibration test", group="Practice-Bot")
-
+@Disabled
 public class color_sensor_calibration extends TeamOpMode {
 
     private ElapsedTime period = new ElapsedTime();

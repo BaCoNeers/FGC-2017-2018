@@ -18,6 +18,7 @@ public class KanaloaBallSorter extends BaconComponent {
     private final Servo servo;
     private final Telemetry.Item item;
     private double red,blue;
+    private boolean showTelemetry;
 
 
 
@@ -36,7 +37,7 @@ public class KanaloaBallSorter extends BaconComponent {
 
         this.colorsensor = colorSensor;
         this.servo = servo;
-
+        this.showTelemetry = showTelemetry;
 
 
         if (showTelemetry) {
@@ -73,7 +74,9 @@ public class KanaloaBallSorter extends BaconComponent {
             if (item != null) {
                 item.setValue(red);
             }
-            getOpMode().telemetry.log().add("%s red value: %.1f blue value: %.1f %.3f", "color",red,blue,getOpMode().time);
+            if (showTelemetry) {
+                getOpMode().telemetry.log().add("%s red value: %.1f blue value: %.1f %.3f", "color", red, blue, getOpMode().time);
+            }
     }
 
 
