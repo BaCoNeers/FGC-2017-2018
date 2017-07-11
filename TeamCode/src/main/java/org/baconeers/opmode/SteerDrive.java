@@ -12,6 +12,7 @@ import org.baconeers.common.GamePadToggleCRServo;
 import org.baconeers.common.GamePadToggleMotor;
 import org.baconeers.common.GamePadToggleServo;
 import org.baconeers.common.KanaloaBallSorter;
+import org.baconeers.common.WhileGamePadCRServo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.baconeers.configurations.KanaloaBase;
@@ -26,7 +27,7 @@ public class SteerDrive extends BaconOpMode {
     private GamePadSafeDualMotor winch;
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
-    private GamePadToggleCRServo crServo;
+    private WhileGamePadCRServo crServo;
     private Telemetry.Item avgItem;
     private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
@@ -45,11 +46,11 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 0.7f, false);
+        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, true);
 
         kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo);
 
-        crServo = new GamePadToggleCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
+        crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
 
         harvesterPrimary = new GamePadToggleMotor(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
