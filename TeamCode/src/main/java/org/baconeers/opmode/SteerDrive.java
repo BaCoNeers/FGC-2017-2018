@@ -98,7 +98,7 @@ public class SteerDrive extends BaconOpMode {
         redServo.update();
 
         //Update the Ball Sorter
-        if (loopCount % 5 ==0) {
+        if (loopCount % 10 ==0) {
             kanaloaBallSorter.update();
         }
         movingAverageTimer.update();
