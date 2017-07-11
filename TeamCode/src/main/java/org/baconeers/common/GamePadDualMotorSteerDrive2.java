@@ -15,8 +15,8 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
     final private Gamepad gamepad;
     private Telemetry.Item leftPowerItem = null;
     private Telemetry.Item rightPowerItem = null;
-    private Telemetry.Item steerPowerItem = null;
-    private Telemetry.Item rawPowerItem = null;
+    private float lastLeftPower = 0.0f;
+    private float lastRightPower = 0.0f;
 
 
     public GamePadDualMotorSteerDrive2(BaconOpMode opMode, Gamepad gamepad,
@@ -34,10 +34,6 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
         leftPowerItem.setRetained(true);
         rightPowerItem = getOpMode().telemetry.addData("Right power", "%.2f", 0.0f);
         rightPowerItem.setRetained(true);
-        steerPowerItem = getOpMode().telemetry.addData("steer power", "%.2f", 0.0f);
-        steerPowerItem.setRetained(true);
-        rawPowerItem = getOpMode().telemetry.addData("raw power", "%.2f", 0.0f);
-        rawPowerItem.setRetained(true);
     }
 
     /*
@@ -137,16 +133,21 @@ public class GamePadDualMotorSteerDrive2 extends BaconComponent {
             rightPower = triggerPower * ((steer < 0) ? 1.0f + (steer * steerFactor) : 1.0f);
         }
 
+        if (lastLeftPower != leftPower)
+        {
+            leftLeftMotor.setPower(leftPower);
+            leftRightMotor.setPower(leftPower);
+            leftPowerItem.setValue("%.2f", leftPower);
+        }
+        lastLeftPower = leftPower;
 
-        leftLeftMotor.setPower(leftPower);
-        leftRightMotor.setPower(leftPower);
-        rightLeftMotor.setPower(rightPower);
-        rightRightMotor.setPower(rightPower);
+        if (lastRightPower != rightPower) {
+            rightLeftMotor.setPower(rightPower);
+            rightRightMotor.setPower(rightPower);
+            rightPowerItem.setValue("%.2f", rightPower);
+        }
+        lastRightPower = rightPower;
 
-        leftPowerItem.setValue("%.2f", leftPower);
-        rightPowerItem.setValue("%.2f", rightPower);
-        steerPowerItem.setValue("%.2f", steer);
-        rawPowerItem.setValue("%.2f", triggerPower);
     }
 
     private static float[] steer_curve =

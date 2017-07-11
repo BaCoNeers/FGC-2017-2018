@@ -37,6 +37,7 @@ public class WhileGamePadCRServo extends BaconComponent {
         this.crservo = crservo;
         this.buttonControl = buttonControl;
         this.crservopower = power;
+        this.lastButtonState = false;
 
         if (showTelemetry) {
             item = opMode.telemetry.addData("Control " + buttonControl.name(), 0.0f);
@@ -58,11 +59,12 @@ public class WhileGamePadCRServo extends BaconComponent {
         // button is pressed down (and not when the button comes back up)
         boolean pressed = buttonPressed(gamepad, buttonControl);
 
-        if (pressed){
-            crservo.setPower(1);
-        }else {
-            crservo.setPower(0);
+        if (pressed != lastButtonState){
+            float power = pressed ? crservopower : 0.0f;
+            crservo.setPower(power);
+            lastButtonState = pressed;
         }
+
     }
 
 
