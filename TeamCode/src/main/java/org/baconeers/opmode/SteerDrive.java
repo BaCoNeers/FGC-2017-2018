@@ -29,6 +29,7 @@ public class SteerDrive extends BaconOpMode {
     private GamePadToggleMotor harvesterSecondary;
     private WhileGamePadCRServo crServo;
     private Telemetry.Item avgItem;
+    private Telemetry.Item maxItem;
     private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
 
@@ -60,6 +61,8 @@ public class SteerDrive extends BaconOpMode {
         avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
         avgItem.setRetained(true);
 
+        maxItem = telemetry.addData("Max", "%.3f ms", 0.0);
+        maxItem.setRetained(true);
 
     }
 
@@ -100,6 +103,7 @@ public class SteerDrive extends BaconOpMode {
         }
         movingAverageTimer.update();
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
+        maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
 
     }
 
