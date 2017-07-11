@@ -49,7 +49,7 @@ public class GamePadToggleServo extends BaconComponent {
         if (pressed && lastPosition != position) {
 
             redservo.setPosition(position);
-            getOpMode().telemetry.log().add("%s red servo: %.2f", position);
+            
         }
 
         lastPosition = position;

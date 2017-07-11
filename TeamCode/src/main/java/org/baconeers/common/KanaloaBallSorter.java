@@ -20,6 +20,7 @@ public class KanaloaBallSorter extends BaconComponent {
     private double red,blue;
 
 
+
     /**
      * Constructor for operation.  Telemetry enabled by default.
      *
@@ -35,6 +36,7 @@ public class KanaloaBallSorter extends BaconComponent {
 
         this.colorsensor = colorSensor;
         this.servo = servo;
+
 
 
         if (showTelemetry) {
@@ -60,12 +62,13 @@ public class KanaloaBallSorter extends BaconComponent {
         // button is pressed down (and not when the button comes back up)
         red = colorsensor.red();
         blue = colorsensor.blue();
+
         if (red > 150)
         {
-            servo.setPosition(0.875);
+            servo.setPosition(0.95);
 
         }else if(blue > 150){
-            servo.setPosition(0.8);
+            servo.setPosition(0.85);
         }
             if (item != null) {
                 item.setValue(red);

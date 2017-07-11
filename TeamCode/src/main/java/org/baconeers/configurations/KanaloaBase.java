@@ -70,8 +70,8 @@ public class KanaloaBase extends RobotConfiguration {
         driveRightRight = (DcMotor) getHardwareOn("right2_drive", hardwareMap.dcMotor);
 
         winchLeft = hardwareMap.dcMotor.get("Winch");
-        winchLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         winchRight = hardwareMap.dcMotor.get("winch2");
+        winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         harvesterPrimary = hardwareMap.dcMotor.get("Harvister");
         harvesterSecondary = hardwareMap.dcMotor.get("harvister2");

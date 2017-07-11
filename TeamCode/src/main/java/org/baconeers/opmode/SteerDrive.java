@@ -45,9 +45,9 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.Y, ButtonControl.LEFT_BUMPER, 0.7f, false);
+        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 0.7f, false);
 
-        kanaloaBallSorter = new KanaloaBallSorter(this, robot.sorterColorSensor,robot.sorterServo);
+        kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo);
 
         crServo = new GamePadToggleCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
@@ -94,7 +94,7 @@ public class SteerDrive extends BaconOpMode {
         redServo.update();
 
         //Update the Ball Sorter
-        if (loopCount % 10 ==0) {
+        if (loopCount % 5 ==0) {
             kanaloaBallSorter.update();
         }
         movingAverageTimer.update();
