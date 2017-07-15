@@ -22,6 +22,7 @@ public class GamePadSafeDualMotor extends BaconComponent {
     private final Telemetry.Item item;
 
 
+
     /**
      * Constructor for operation.  Telemetry enabled by default.
      *

@@ -18,6 +18,8 @@ public class GamePadToggleMotor extends BaconComponent {
     private boolean motorOn = false;
     private boolean lastButtonState = false;
     private final Telemetry.Item item;
+    private double lastpower;
+    private boolean showtelemetry = false;
 
 
     /**
@@ -61,12 +63,19 @@ public class GamePadToggleMotor extends BaconComponent {
             motorOn = !motorOn;
             float power = motorOn ? motorPower : 0.0f;
             motor.setPower(power);
+            lastpower = power;
             if (item != null) {
                 item.setValue(power);
             }
-            getOpMode().telemetry.log().add("%s motor power: %.2f", buttonControl.name(), power);
+            if (showtelemetry) {
+                getOpMode().telemetry.log().add("%s motor power: %.2f", buttonControl.name(), power);
+            }
         }
         lastButtonState = pressed;
+        if (lastpower != motor.getPower()){
+            motor.setPower(lastpower);
+        }
+
     }
 
 
