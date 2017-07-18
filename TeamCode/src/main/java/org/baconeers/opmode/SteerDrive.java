@@ -8,8 +8,10 @@ import org.baconeers.common.ButtonControl;
 import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
+import org.baconeers.common.GamePadSafeDualMotorwinch;
 import org.baconeers.common.GamePadToggleCRServo;
 import org.baconeers.common.GamePadToggleMotor;
+import org.baconeers.common.GamePadToggleMotorWithRevers;
 import org.baconeers.common.GamePadToggleServo;
 import org.baconeers.common.KanaloaBallSorter;
 import org.baconeers.common.WhileGamePadCRServo;
@@ -25,6 +27,7 @@ public class SteerDrive extends BaconOpMode {
     private KanaloaBase robot;
     private GamePadDualMotorSteerDrive2 drive;
     private GamePadSafeDualMotor winch;
+    private GamePadSafeDualMotorwinch winch2;
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
     private WhileGamePadCRServo crServo;
@@ -32,6 +35,8 @@ public class SteerDrive extends BaconOpMode {
     private Telemetry.Item maxItem;
     private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
+
+
 
 
 
@@ -48,6 +53,7 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveRightLeft,robot.driveRightRight);
 
         winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
+        winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
 
         kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo, false);
 
@@ -55,7 +61,7 @@ public class SteerDrive extends BaconOpMode {
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
 
         harvesterPrimary = new GamePadToggleMotor(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
-        harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B,1.0f,false);
+        harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B, 1.0f,false);
 
 
         avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
@@ -87,7 +93,8 @@ public class SteerDrive extends BaconOpMode {
         drive.update();
 
         // Update the Winch
-        winch.update();
+
+        winch2.update();
 
         // Update the Harvester
         harvesterPrimary.update();
