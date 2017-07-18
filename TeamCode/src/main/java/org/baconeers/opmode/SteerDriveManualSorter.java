@@ -10,7 +10,6 @@ import org.baconeers.common.GamePadSafeDualMotor;
 import org.baconeers.common.GamePadToggleMotor;
 import org.baconeers.common.GamePadToggleServo;
 import org.baconeers.common.GamePadManualBallSorter;
-import org.baconeers.common.KanaloaBallSorter;
 import org.baconeers.common.WhileGamePadCRServo;
 import org.baconeers.configurations.KanaloaBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -28,7 +27,6 @@ public class SteerDriveManualSorter extends BaconOpMode {
     private WhileGamePadCRServo crServo;
     private Telemetry.Item avgItem;
     private Telemetry.Item maxItem;
-    private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
     private GamePadManualBallSorter sorterServo;
 
@@ -71,7 +69,6 @@ public class SteerDriveManualSorter extends BaconOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        kanaloaBallSorter.init();
     }
 
     /**
@@ -95,10 +92,6 @@ public class SteerDriveManualSorter extends BaconOpMode {
         crServo.update();
         redServo.update();
 
-        //Update the Ball Sorter
-        if (loopCount % 10 ==0) {
-            kanaloaBallSorter.update();
-        }
         movingAverageTimer.update();
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
         maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
