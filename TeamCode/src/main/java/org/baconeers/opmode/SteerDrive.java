@@ -28,7 +28,7 @@ public class SteerDrive extends BaconOpMode {
     private GamePadDualMotorSteerDrive2 drive;
     private GamePadSafeDualMotor winch;
     private GamePadSafeDualMotorwinch winch2;
-    private GamePadToggleMotor harvesterPrimary;
+    private GamePadToggleMotorWithRevers harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
     private WhileGamePadCRServo crServo;
     private Telemetry.Item avgItem;
@@ -60,7 +60,7 @@ public class SteerDrive extends BaconOpMode {
         crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
 
-        harvesterPrimary = new GamePadToggleMotor(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
+        harvesterPrimary = new GamePadToggleMotorWithRevers(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,ButtonControl.X,1.0f,false);
         harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B, 1.0f,false);
 
 

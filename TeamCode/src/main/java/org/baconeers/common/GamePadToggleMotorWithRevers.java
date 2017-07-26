@@ -66,10 +66,10 @@ public class GamePadToggleMotorWithRevers extends BaconComponent {
         boolean pressed2 = buttonPressed(gamepad,buttonControl2);
 
         if (pressed && lastButtonState != pressed) {
-            if (motorPower > 1 & motorPower < 1){
+            if (motorPower > 1 || motorPower < 1){
                 motor.setPower(1);
                 motorPower = 1;
-            }else if (motorPower > 0 & motorPower < 0){
+            }else if (motorPower > 0 || motorPower < 0){
                 motor.setPower(0);
                 motorPower = 0;
 
@@ -80,17 +80,17 @@ public class GamePadToggleMotorWithRevers extends BaconComponent {
         lastButtonState = pressed;
 
         if (pressed2 && lastButtonState2 != pressed2){
-            if (motor.getPower() > -1 & motor.getPower() < -1){
+            if (motor.getPower() > -1 || motor.getPower() < -1){
                 motor.setPower(-1);
                 motorPower = -1;
-            }else if (motor.getPower() > 0 & motor.getPower() < 0){
+            }else if (motor.getPower() > 0 || motor.getPower() < 0){
                 motor.setPower(0);
                 motorPower = 0;
             }
         }
         lastButtonState2 = pressed2;
-        getOpMode().telemetry.log().add("%s motor power: %.2f", pressed, motor.getPower());
-        getOpMode().telemetry.log().add("%s motor power: %.2f", pressed2, motor.getPower());
+        getOpMode().telemetry.log().add("%s motor power: %.2f", pressed, motor.getPower(), motorPower);
+        getOpMode().telemetry.log().add("%s motor power: %.2f", pressed2, motor.getPower(),motorPower);
 
     }
 
