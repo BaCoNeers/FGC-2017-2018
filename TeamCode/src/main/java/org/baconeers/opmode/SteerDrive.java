@@ -24,17 +24,17 @@ import org.baconeers.configurations.KanaloaBase;
 //@Disabled
 public class SteerDrive extends BaconOpMode {
 
-    private KanaloaBase robot;
+   private KanaloaBase robot;
     private GamePadDualMotorSteerDrive2 drive;
-    private GamePadSafeDualMotor winch;
-    private GamePadSafeDualMotorwinch winch2;
-    private GamePadToggleMotorWithRevers harvesterPrimary;
-    private GamePadToggleMotor harvesterSecondary;
-    private WhileGamePadCRServo crServo;
-    private Telemetry.Item avgItem;
-    private Telemetry.Item maxItem;
-    private KanaloaBallSorter kanaloaBallSorter;
-    private GamePadToggleServo redServo;
+//    private GamePadSafeDualMotor winch;
+//    private GamePadSafeDualMotorwinch winch2;
+//    private GamePadToggleMotorWithRevers harvesterPrimary;
+//    private GamePadToggleMotor harvesterSecondary;
+//    private WhileGamePadCRServo crServo;
+//    private Telemetry.Item avgItem;
+//    private Telemetry.Item maxItem;
+//    private KanaloaBallSorter kanaloaBallSorter;
+//    private GamePadToggleServo redServo;
 
 
 
@@ -52,23 +52,23 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
-        winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
-
-        kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo, false);
-
-        crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
-        redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
-
-        harvesterPrimary = new GamePadToggleMotorWithRevers(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,ButtonControl.X,1.0f,false);
-        harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B, 1.0f,false);
-
-
-        avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
-        avgItem.setRetained(true);
-
-        maxItem = telemetry.addData("Max", "%.3f ms", 0.0);
-        maxItem.setRetained(true);
+//       // winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
+//        //winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
+//
+//        //kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo, false);
+//
+//        //crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
+//        redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
+//
+//        harvesterPrimary = new GamePadToggleMotorWithRevers(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,ButtonControl.X,1.0f,false);
+//        harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B, 1.0f,false);
+//
+//
+//        avgItem = telemetry.addData("Avg", "%.3f ms", 0.0);
+//        avgItem.setRetained(true);
+//
+//        maxItem = telemetry.addData("Max", "%.3f ms", 0.0);
+//        maxItem.setRetained(true);
 
     }
 
@@ -79,7 +79,7 @@ public class SteerDrive extends BaconOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        kanaloaBallSorter.init();
+        //kanaloaBallSorter.init();
     }
 
     /**
@@ -94,23 +94,23 @@ public class SteerDrive extends BaconOpMode {
 
         // Update the Winch
 
-        winch2.update();
+       // winch2.update();
 
         // Update the Harvester
-        harvesterPrimary.update();
-        harvesterSecondary.update();
+        //harvesterPrimary.update();
+        //harvesterSecondary.update();
 
         //Update the servo's
-        crServo.update();
-        redServo.update();
+        //crServo.update();
+       // redServo.update();
 
-        //Update the Ball Sorter every 10 loops
-        if (loopCount % 10 ==0) {
-            kanaloaBallSorter.update();
-        }
-        movingAverageTimer.update();
-        avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
-        maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
+//        //Update the Ball Sorter every 10 loops
+//        if (loopCount % 10 ==0) {
+//            kanaloaBallSorter.update();
+//        }
+//        movingAverageTimer.update();
+//        avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
+//        maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
 
     }
 
