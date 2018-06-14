@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.baconeers.common.BaconOpMode;
 import org.baconeers.common.ButtonControl;
+import org.baconeers.common.ColorSensorThread;
 import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
@@ -18,6 +19,8 @@ import org.baconeers.common.WhileGamePadCRServo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.baconeers.configurations.KanaloaBase;
+
+import java.util.concurrent.TimeUnit;
 
 
 @TeleOp(name = "H2O flow without telemetry")
@@ -35,6 +38,7 @@ public class SteerDrive extends BaconOpMode {
     private Telemetry.Item maxItem;
     private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
+    private ColorSensorThread colorSensor = null;
 
 
 
@@ -55,7 +59,9 @@ public class SteerDrive extends BaconOpMode {
         winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
         winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
 
-        kanaloaBallSorter = new KanaloaBallSorter(this,  robot.sorterColorSensor,robot.sorterServo, false);
+        robot.sorterColorSensor.enableLed(true);
+        colorSensor = new ColorSensorThread(this, robot.sorterColorSensor, 20, 100, TimeUnit.MILLISECONDS);
+        kanaloaBallSorter = new KanaloaBallSorter(this,colorSensor,robot.sorterServo, true);
 
         crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
@@ -80,6 +86,7 @@ public class SteerDrive extends BaconOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         kanaloaBallSorter.init();
+        colorSensor.onStart();
     }
 
     /**
@@ -104,14 +111,21 @@ public class SteerDrive extends BaconOpMode {
         crServo.update();
         redServo.update();
 
-        //Update the Ball Sorter every 10 loops
-        if (loopCount % 10 ==0) {
+        //Update the Ball Sorter
+
             kanaloaBallSorter.update();
-        }
+
         movingAverageTimer.update();
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
         maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
 
+    }
+
+
+    protected void onStop() throws InterruptedException {
+        super.onStop();
+        colorSensor.onStop();
+        colorSensor.enableLed(false);
     }
 
 }
