@@ -76,7 +76,7 @@ public class GamePadSafeDualMotor extends BaconComponent {
             }
             lastButtonState = motorOn;
 
-            getOpMode().telemetry.log().add("%s+%s dual motor power: %.2f", buttonControl1.name(), buttonControl2.name(), power);
+            //getOpMode().telemetry.log().add("%s+%s dual motor power: %.2f", buttonControl1.name(), buttonControl2.name(), power);
         }
     }
 

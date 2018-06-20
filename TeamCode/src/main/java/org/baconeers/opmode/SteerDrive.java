@@ -1,16 +1,13 @@
 package org.baconeers.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.baconeers.common.BaconOpMode;
 import org.baconeers.common.ButtonControl;
 import org.baconeers.common.ColorSensorThread;
-import org.baconeers.common.GamePadDualMotorSteerDrive;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadSafeDualMotor;
 import org.baconeers.common.GamePadSafeDualMotorwinch;
-import org.baconeers.common.GamePadToggleCRServo;
 import org.baconeers.common.GamePadToggleMotor;
 import org.baconeers.common.GamePadToggleMotorWithRevers;
 import org.baconeers.common.GamePadToggleServo;
@@ -36,9 +33,11 @@ public class SteerDrive extends BaconOpMode {
     private WhileGamePadCRServo crServo;
     private Telemetry.Item avgItem;
     private Telemetry.Item maxItem;
+    private Telemetry.Item cpuItem;
     private KanaloaBallSorter kanaloaBallSorter;
     private GamePadToggleServo redServo;
     private ColorSensorThread colorSensor = null;
+
 
 
 
@@ -61,7 +60,9 @@ public class SteerDrive extends BaconOpMode {
 
         robot.sorterColorSensor.enableLed(true);
         colorSensor = new ColorSensorThread(this, robot.sorterColorSensor, 20, 100, TimeUnit.MILLISECONDS);
-        kanaloaBallSorter = new KanaloaBallSorter(this,colorSensor,robot.sorterServo, true);
+        kanaloaBallSorter = new KanaloaBallSorter(this,colorSensor,robot.sorterServo, false);
+
+
 
         crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
         redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
@@ -76,6 +77,9 @@ public class SteerDrive extends BaconOpMode {
         maxItem = telemetry.addData("Max", "%.3f ms", 0.0);
         maxItem.setRetained(true);
 
+        cpuItem = telemetry.addData("Cpu","%2f",0.0);
+        cpuItem.setRetained(true);
+
     }
 
     /**
@@ -87,6 +91,7 @@ public class SteerDrive extends BaconOpMode {
         super.onStart();
         kanaloaBallSorter.init();
         colorSensor.onStart();
+
     }
 
     /**
@@ -119,12 +124,14 @@ public class SteerDrive extends BaconOpMode {
         avgItem.setValue("%.3f ms", movingAverageTimer.movingAverage());
         maxItem.setValue("%.3f ms", movingAverageTimer.maxLoopTime());
 
+
     }
 
 
     protected void onStop() throws InterruptedException {
         super.onStop();
         colorSensor.onStop();
+
         colorSensor.enableLed(false);
     }
 
