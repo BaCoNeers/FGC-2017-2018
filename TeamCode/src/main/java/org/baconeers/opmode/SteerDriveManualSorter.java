@@ -7,6 +7,7 @@ import org.baconeers.common.ButtonControl;
 import org.baconeers.common.GamePadDualMotorSteerDrive2;
 import org.baconeers.common.GamePadManualBallSorter;
 import org.baconeers.common.GamePadSafeDualMotor;
+import org.baconeers.common.GamePadSafeDualMotorwinch;
 import org.baconeers.common.GamePadToggleMotor;
 import org.baconeers.common.GamePadToggleServo;
 import org.baconeers.common.GamePadManualBallSorter;
@@ -24,10 +25,10 @@ public class SteerDriveManualSorter extends BaconOpMode {
     private GamePadSafeDualMotor winch;
     private GamePadToggleMotor harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
-    private WhileGamePadCRServo crServo;
+    private WhileGamePadCRServo blueServo;
     private Telemetry.Item avgItem;
     private Telemetry.Item maxItem;
-    private GamePadToggleServo redServo;
+    private WhileGamePadCRServo redServo;
     private GamePadManualBallSorter sorterServo;
 
 
@@ -46,8 +47,8 @@ public class SteerDriveManualSorter extends BaconOpMode {
 
         winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
 
-        crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
-        redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
+        blueServo = new WhileGamePadCRServo(this, gamepad2, robot.blueCRServo,ButtonControl.DPAD_UP,ButtonControl.DPAD_DOWN,1.0f,false );
+        redServo = new WhileGamePadCRServo(this,gamepad2,robot.redCRServo,ButtonControl.DPAD_LEFT,ButtonControl.DPAD_RIGHT,1.0f,false);
         sorterServo = new GamePadManualBallSorter(this, gamepad2, robot.sorterServo);
 
         harvesterPrimary = new GamePadToggleMotor(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,1.0f,false);
@@ -89,7 +90,7 @@ public class SteerDriveManualSorter extends BaconOpMode {
         harvesterSecondary.update();
 
         //Update the servo's
-        crServo.update();
+        blueServo.update();
         redServo.update();
 
         movingAverageTimer.update();

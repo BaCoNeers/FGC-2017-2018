@@ -30,12 +30,12 @@ public class SteerDrive extends BaconOpMode {
     private GamePadSafeDualMotorwinch winch2;
     private GamePadToggleMotorWithRevers harvesterPrimary;
     private GamePadToggleMotor harvesterSecondary;
-    private WhileGamePadCRServo crServo;
+    private WhileGamePadCRServo blueServo;
+    private WhileGamePadCRServo redServo;
     private Telemetry.Item avgItem;
     private Telemetry.Item maxItem;
     private Telemetry.Item cpuItem;
     private KanaloaBallSorter kanaloaBallSorter;
-    private GamePadToggleServo redServo;
     private ColorSensorThread colorSensor = null;
 
 
@@ -55,8 +55,8 @@ public class SteerDrive extends BaconOpMode {
                 robot.driveLeftLeft,robot.driveLeftRight,
                 robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP, ButtonControl.RIGHT_BUMPER, 1f, false);
-        winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.DPAD_UP,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
+        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.LEFT_BUMPER, ButtonControl.RIGHT_BUMPER, 1f, false);
+        winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.LEFT_BUMPER,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
 
         robot.sorterColorSensor.enableLed(true);
         colorSensor = new ColorSensorThread(this, robot.sorterColorSensor, 20, 100, TimeUnit.MILLISECONDS);
@@ -64,8 +64,8 @@ public class SteerDrive extends BaconOpMode {
 
 
 
-        crServo = new WhileGamePadCRServo(this, gamepad2, robot.bluecrservo,ButtonControl.LEFT_BUMPER,1.0f,false );
-        redServo = new GamePadToggleServo(this,gamepad2,robot.redservo);
+        blueServo = new WhileGamePadCRServo(this, gamepad2, robot.blueCRServo,ButtonControl.DPAD_UP,ButtonControl.DPAD_DOWN,1.0f,false );
+        redServo = new WhileGamePadCRServo(this,gamepad2,robot.redCRServo,ButtonControl.DPAD_LEFT,ButtonControl.DPAD_RIGHT,1.0f,false);
 
         harvesterPrimary = new GamePadToggleMotorWithRevers(this,gamepad2,robot.harvesterPrimary, ButtonControl.A,ButtonControl.X,1.0f,false);
         harvesterSecondary = new GamePadToggleMotor(this,gamepad2,robot.harvesterSecondary, ButtonControl.B, 1.0f,false);
@@ -113,7 +113,7 @@ public class SteerDrive extends BaconOpMode {
         harvesterSecondary.update();
 
         //Update the servo's
-        crServo.update();
+        blueServo.update();
         redServo.update();
 
         //Update the Ball Sorter

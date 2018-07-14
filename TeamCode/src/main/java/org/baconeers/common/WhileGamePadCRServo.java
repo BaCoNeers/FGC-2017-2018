@@ -12,11 +12,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class WhileGamePadCRServo extends BaconComponent {
 
     private final ButtonControl buttonControl;
+    private final ButtonControl buttonControl2;
     private final CRServo crservo;
     private final Gamepad gamepad;
     private final float crservopower;
     private boolean crservoOn = false;
     private boolean lastButtonState = false;
+    private boolean lastButtonState2 = false;
     private final Telemetry.Item item;
 
 
@@ -30,12 +32,13 @@ public class WhileGamePadCRServo extends BaconComponent {
      * @param power         power to apply when using gamepad buttons
      * @param showTelemetry  display the power values on the telemetry
      */
-    public WhileGamePadCRServo(BaconOpMode opMode, Gamepad gamepad, CRServo crservo, ButtonControl buttonControl, float power, boolean showTelemetry) {
+    public WhileGamePadCRServo(BaconOpMode opMode, Gamepad gamepad, CRServo crservo, ButtonControl buttonControl,ButtonControl buttonControl2, float power, boolean showTelemetry) {
         super(opMode);
 
         this.gamepad = gamepad;
         this.crservo = crservo;
         this.buttonControl = buttonControl;
+        this.buttonControl2 = buttonControl2;
         this.crservopower = power;
         this.lastButtonState = false;
 
@@ -46,8 +49,8 @@ public class WhileGamePadCRServo extends BaconComponent {
             item = null;
         }
     }
-    public WhileGamePadCRServo(BaconOpMode opMode, Gamepad gamepad, CRServo crservo , ButtonControl buttonControl, float power) {
-        this(opMode,gamepad,crservo,buttonControl,power,true);
+    public WhileGamePadCRServo(BaconOpMode opMode, Gamepad gamepad, CRServo crservo , ButtonControl buttonControl,ButtonControl buttonControl2, float power) {
+        this(opMode,gamepad,crservo,buttonControl,buttonControl2,power,true);
     }
 
 
@@ -58,11 +61,18 @@ public class WhileGamePadCRServo extends BaconComponent {
         // Only toggle when the button state changes from false to true, ie when the
         // button is pressed down (and not when the button comes back up)
         boolean pressed = buttonPressed(gamepad, buttonControl);
+        boolean pressed2 = buttonPressed(gamepad,buttonControl2);
 
         if (pressed != lastButtonState){
             float power = pressed ? crservopower : 0.0f;
             crservo.setPower(power);
             lastButtonState = pressed;
+        }
+
+        if (pressed2 != lastButtonState2){
+            float power = pressed2 ? -1 * crservopower : 0.0f;
+            crservo.setPower(power);
+            lastButtonState2 = pressed2;
         }
 
     }
