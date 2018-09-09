@@ -72,8 +72,8 @@ public class GamePadSafeDualMotorwinch extends BaconComponent {
     public void update() {
         // Only engage the motor1 when both buttons are pressed as a form of
         // safety to prevent accidental triggering of the motor1
-        halfMotorOn = buttonPressed(gamepad, buttonControl1) && gamepad.right_trigger > 0;
-        motorOn = buttonPressed(gamepad, buttonControl1) && buttonPressed(gamepad,buttonControl2);
+        halfMotorOn = buttonPressed(gamepad, buttonControl1) && buttonPressed(gamepad,buttonControl2);
+        motorOn = gamepad.left_trigger > 0 && gamepad.right_trigger > 0;
         if (motorOn != lastButtonState2 && enablefastwinch) {
             float power = motorOn ? motorPower : 0.0f;
             motor1.setPower(power);

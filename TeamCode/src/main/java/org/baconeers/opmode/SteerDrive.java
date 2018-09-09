@@ -51,11 +51,9 @@ public class SteerDrive extends BaconOpMode {
 
         robot = KanaloaBase.newConfig(hardwareMap, telemetry);
 
-        drive = new GamePadDualMotorSteerDrive2(this, gamepad1,
-                robot.driveLeftLeft,robot.driveLeftRight,
-                robot.driveRightLeft,robot.driveRightRight);
+        drive = new GamePadDualMotorSteerDrive2(this, gamepad1,robot.driveLeftLeft,robot.driveLeftRight,robot.driveRightLeft,robot.driveRightRight);
 
-        winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.LEFT_BUMPER, ButtonControl.RIGHT_BUMPER, 1f, false);
+        //winch = new GamePadSafeDualMotor(this, gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.LEFT_BUMPER, ButtonControl.RIGHT_BUMPER, 1f, false);
         winch2 = new GamePadSafeDualMotorwinch(this,gamepad2, robot.winchLeft, robot.winchRight, ButtonControl.LEFT_BUMPER,ButtonControl.RIGHT_BUMPER, 1f, 0.5f,false);
 
         robot.sorterColorSensor.enableLed(true);
